@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+
+	<div class="example-wrapper">
+		<section class="figures">
+			<article>
+				<h2>Nom de la figure</h2>
+				<div class="metadata">Rédigé le 19/11/2021 à 15h00 dans la catégorie Figures</div>
+				<div class="content">
+					<img src="http://via.placeholder.com/350x150" alt="">
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit facere illo nulla dolorem. Illo, ab.</p>
+					<p>Consequatur necessitatibus nostrum eaque. Omnis dolorum unde facilis eligendi odio quos quaerat debitis non quo!</p>
+					<a href="{{ path('figures_show') }}" class="btn btn-primary">Lire la suite</a>
+				</div>
+			</article>
+		</section>
+	</div>
+{% endblock %}
