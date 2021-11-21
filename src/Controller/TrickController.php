@@ -10,10 +10,10 @@ use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class FiguresController extends AbstractController
+class TrickController extends AbstractController
 {
     /**
-     * @Route("/", name="home", methods={"GET", "HEAD"})
+     * @Route("/", name="home", methods={"GET"})
      */
     public function home()
     {
@@ -21,7 +21,7 @@ class FiguresController extends AbstractController
     }
 
     /**
-     * @Route("/figures", name="figures", methods={"GET", "HEAD"})
+     * @Route("/figures", name="figures", methods={"GET"})
      */
     public function index(TrickRepository $repo): Response
     {
@@ -34,33 +34,30 @@ class FiguresController extends AbstractController
     }
 
     /**
-     * @Route("/figures/nouvelle-figure", name="figures_create", methods={"GET", "HEAD"})
-     * @Route("/figures/{id}/editer", name="figures_edit", methods={"GET", "HEAD"})
+     * @Route("/figures/nouvelle-figure", name="figures_create", methods={"GET"})
+     * @Route("/figures/{id}/editer", name="figures_edit", methods={"GET"})
      */
     public function form(Trick $trick = NULL, Request $request, EntityManagerInterface $manager)
     {
-        if (!$trick)
-        {
+        if (!$trick) {
             $trick = new Trick();
         }
 
         $form = $this->createFormBuilder($trick)
-                    ->add('name')
-                    ->add('description')
-                    ->add('category')
-                    ->add('content')
-                    ->add('author')
-                    ->getForm();
+            ->add('name')
+            ->add('description')
+            ->add('category')
+            ->add('content')
+            ->add('author')
+            ->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            if (!$trick->getId())
-            {
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!$trick->getId()) {
                 $trick->setCreationDate(new \DateTime());
             }
-            
+
             $manager->persist($trick);
             $manager->flush();
 
@@ -74,10 +71,10 @@ class FiguresController extends AbstractController
     }
 
     /**
-     * @Route("/figures/{id}", name="figures_show", methods={"GET", "HEAD"})
+     * @Route("/figures/{id}", name="figures_show", methods={"GET"})
      */
     public function show(Trick $trick)
-    { 
+    {
         return $this->render('figures/show.html.twig', [
             'trick' => $trick
         ]);
