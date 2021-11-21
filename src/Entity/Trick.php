@@ -4,10 +4,13 @@ namespace App\Entity;
 
 use App\Repository\TrickRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
+ * @UniqueEntity("name")
+ * @UniqueEntity("slug")
  */
 class Trick
 {
@@ -19,51 +22,84 @@ class Trick
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\MinLength=3
-     * @Assert\Unique()
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\Length(
+     *      min = 3, 
+     *      max = 50,
+     *      minMessage = "Le nom de votre figure doit être supérieur à {{ limit }} caractères.",
+     *      maxMessage = "Le nom de votre figure ne doit pas dépasser {{ limit }} caractères."
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\MinLength=10
+     * @Assert\Length(
+     *      min = 10, 
+     *      max = 255,
+     *      minMessage = "La description de votre figure doit être supérieure à {{ limit }} caractères.",
+     *      maxMessage = "La description de votre figure ne doit pas dépasser {{ limit }} caractères."
+     * )
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\MinLength=3
+     * @Assert\Length(
+     *      min = 3, 
+     *      max = 50,
+     *      minMessage = "La catégorie de votre figure doit être supérieure à {{ limit }} caractères.",
+     *      maxMessage = "La catégorie de votre figure ne doit pas dépasser {{ limit }} caractères."
+     * )
      */
     private $category;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\MinLength=20
+     * @Assert\NotBlank(
+     *      message = "Cette valeur ne doit pas être laissée blanche."
+     * )
+     * @Assert\NotNull(
+     *      message = "Cette valeur ne doit pas être laissée nulle."
+     * )
      */
     private $content;
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\DateTime()
+     * @Assert\DateTime(
+     *      message = "Ce n'est pas une date valide."
+     * )
      */
     private $creationDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     * @Assert\DateTime()
+     * @Assert\DateTime(
+     *      message = "Ce n'est pas une date valide."
+     * )
      */
     private $modifDate;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\MinLength=3
+     * @Assert\Length(
+     *      min = 3, 
+     *      max = 50,
+     *      minMessage = "Votre nom d'auteur doit être supérieur à {{ limit }} caractères.",
+     *      maxMessage = "Votre nom d'auteur ne doit pas dépasser {{ limit }} caractères."
+     * )
      */
     private $author;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\MinLength=3
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\Length(
+     *      min = 3, 
+     *      max = 50,
+     *      minMessage = "Le slug de l'URL de votre figure doit être supérieur à {{ limit }} caractères.",
+     *      maxMessage = "Le slug de l'URL de votre figure ne doit pas dépasser {{ limit }} caractères."
+     * )
      */
     private $slug;
 

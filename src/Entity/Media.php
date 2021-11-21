@@ -20,25 +20,45 @@ class Media
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\MinLength=3
+     * @Assert\Length(
+     *      min = 3, 
+     *      max = 50,
+     *      minMessage = "Le nom de votre média doit être supérieur à {{ limit }} caractères.",
+     *      maxMessage = "Le nom de votre média ne doit pas dépasser {{ limit }} caractères."
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\MinLength=3
+     * @Assert\Length(
+     *      min = 3, 
+     *      max = 50,
+     *      minMessage = "Le type de votre média doit être supérieur à {{ limit }} caractères.",
+     *      maxMessage = "Le type de votre média ne doit pas dépasser {{ limit }} caractères."
+     * )
      */
     private $type;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\MinLength=3
+     * @Assert\Length(
+     *      min = 3, 
+     *      max = 255,
+     *      minMessage = "Le texte alternatif de votre média doit être supérieur à {{ limit }} caractères.",
+     *      maxMessage = "Le texte alternatif de votre média ne doit pas dépasser {{ limit }} caractères."
+     * )
      */
     private $altText;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Url()
+     * @Assert\NotBlank(
+     *      message = "Cette valeur ne doit pas être laissée blanche."
+     * )
+     * @Assert\NotNull(
+     *      message = "Cette valeur ne doit pas être laissée nulle."
+     * )
      */
     private $url;
 

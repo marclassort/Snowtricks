@@ -20,37 +20,64 @@ class Comment
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\MinLength=6
+     * @Assert\Length(
+     *      min = 3, 
+     *      max = 50,
+     *      minMessage = "Votre pseudo doit être supérieur à {{ limit }} caractères.",
+     *      maxMessage = "Votre pseudo ne doit pas dépasser {{ limit }} caractères."
+     * )
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\MinLength=3
+     * @Assert\Length(
+     *      min = 3, 
+     *      max = 50,
+     *      minMessage = "Votre prénom doit être supérieur à {{ limit }} caractères.",
+     *      maxMessage = "Votre prénom ne doit pas dépasser {{ limit }} caractères."
+     * )
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\MinLength=3
+     * @Assert\Length(
+     *      min = 3, 
+     *      max = 50,
+     *      minMessage = "Votre nom de famille doit être supérieur à {{ limit }} caractères.",
+     *      maxMessage = "Votre nom de famille ne doit pas dépasser {{ limit }} caractères."
+     * )
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *      message = "Cette valeur ne doit pas être laissée blanche."
+     * )
+     * @Assert\NotNull(
+     *      message = "Cette valeur ne doit pas être laissée nulle."
+     * )
      */
     private $content;
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\DateTime()
+     * @Assert\DateTime(
+     *      message = "Ce n'est pas une date valide."
+     * )
      */
     private $creationDate;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\IsTrue()
+     * @Assert\NotBlank(
+     *      message = "Cette valeur ne doit pas être laissée blanche."
+     * )
+     * @Assert\NotNull(
+     *      message = "Cette valeur ne doit pas être laissée nulle."
+     * )
      */
     private $isValid;
 
