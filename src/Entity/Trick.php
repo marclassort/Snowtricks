@@ -9,8 +9,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
- * @UniqueEntity("name")
- * @UniqueEntity("slug")
+ * @UniqueEntity(fields={"name"}, message="Ce nom de figure est déjà pris.")
+ * @UniqueEntity(fields={"slug"}, message="Ce slug existe déjà.")
  */
 class Trick
 {
