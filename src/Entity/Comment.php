@@ -19,7 +19,8 @@ class Comment
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
+     * @ORM\JoinColumn(name="user_id", nullable=false)
      * @Assert\Length(
      *      min = 3, 
      *      max = 50,
@@ -81,6 +82,11 @@ class Comment
      */
     private $isValid;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="comments")
+     */
+    private $trick;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,7 +97,7 @@ class Comment
         return $this->username;
     }
 
-    public function setUsername(string $username): self
+    public function setUsername(?User $username): self
     {
         $this->username = $username;
 
@@ -154,6 +160,18 @@ class Comment
     public function setIsValid(bool $isValid): self
     {
         $this->isValid = $isValid;
+
+        return $this;
+    }
+
+    public function getTrick(): ?Trick
+    {
+        return $this->trick;
+    }
+
+    public function setTrick(?Trick $trick): self
+    {
+        $this->trick = $trick;
 
         return $this;
     }

@@ -62,6 +62,12 @@ class Media
      */
     private $url;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Trick::class, inversedBy="media", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $trick;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -111,6 +117,18 @@ class Media
     public function setUrl(string $url): self
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    public function getTrick(): ?Trick
+    {
+        return $this->trick;
+    }
+
+    public function setTrick(Trick $trick): self
+    {
+        $this->trick = $trick;
 
         return $this;
     }
