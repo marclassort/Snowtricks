@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MediaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MediaRepository::class)
@@ -19,21 +20,25 @@ class Media
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\MinLength=3
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\MinLength=3
      */
     private $type;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\MinLength=3
      */
     private $altText;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url()
      */
     private $url;
 

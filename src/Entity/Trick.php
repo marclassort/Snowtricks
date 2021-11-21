@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TrickRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
@@ -19,38 +20,52 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\MinLength=3
+     * @Assert\Unique()
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\MinLength=10
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\MinLength=3
      */
     private $category;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\MinLength=20
      */
     private $content;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\DateTime()
      */
     private $creationDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\DateTime()
      */
     private $modifDate;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\MinLength=3
      */
     private $author;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\MinLength=3
+     */
+    private $slug;
 
     public function getId(): ?int
     {
@@ -137,6 +152,18 @@ class Trick
     public function setAuthor(string $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
