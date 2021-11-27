@@ -1,23 +1,28 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">Snowtricks</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarColor01">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="{{ path('home') }}">Accueil
-                        <span class="visually-hidden">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('figures') }}">Figures</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('figures_create') }}">Nouvelle figure</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-light">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="/">
+			<img src="/img/logo-snowtricks.png" alt="logo snowtricks" class="w-25">
+		</a>
+		<button class=" navbar-toggler" type=" button" data-bs-toggle=" collapse" data-bs-target=" #navbarColor01" aria-controls=" navbarColor01" aria-expanded=" false" aria-label=" toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse " id="navbarColor01">
+			<ul class="navbar-nav me-auto">
+				<li class="nav-item">
+					<a class="nav-link text-dark active" href="{{ path('home') }}">Accueil
+						<span class="visually-hidden">(current)</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-dark" href="{{ path('home' )}}#tricks">Figures</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-dark" href="{{ path('app_login') }}">Login</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-dark" href="{{ path('app_registration') }}">S'inscrire</a>
+				</li>
+			</ul>
+		</div>
+	</div>
 </nav>

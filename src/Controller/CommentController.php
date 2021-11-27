@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommentController extends AbstractController
 {
     /**
-     * @Route("/comment", name="comment")
+     * @Route("/comment", name="comment", methods={"GET"})
      */
     public function index(): Response
     {

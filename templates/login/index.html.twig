@@ -1,26 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LoginController!
+{% block title %}
+	Sign in{{ parent() }}
 {% endblock %}
 
+
 {% block body %}
-
-	<div class="example-wrapper">
-		<h1>Hello
-			{{ controller_name }}! ✅</h1>
-
-		This friendly message is coming from:
-		<ul>
-			<li>Your controller at
-				<code>
-					<a href="{{ '/Users/marclassort/PHP/snowtricks/src/Controller/LoginController.php'|file_link(0) }}">src/Controller/LoginController.php</a>
-				</code>
-			</li>
-			<li>Your template at
-				<code>
-					<a href="{{ '/Users/marclassort/PHP/snowtricks/templates/login/index.html.twig'|file_link(0) }}">templates/login/index.html.twig</a>
-				</code>
-			</li>
-		</ul>
-	</div>
+	<h1>Sign in</h1>
 {% endblock %}

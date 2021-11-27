@@ -15,9 +15,13 @@ class TrickController extends AbstractController
     /**
      * @Route("/", name="home", methods={"GET"})
      */
-    public function home()
+    public function home(TrickRepository $repo): Response
     {
-        return $this->render('figures/home.html.twig');
+        $tricks = $repo->findAll();
+
+        return $this->render('figures/home.html.twig', [
+            'tricks' => $tricks
+        ]);
     }
 
     /**
@@ -34,49 +38,29 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/figures/nouvelle-figure", name="figures_create", methods={"GET"})
-     * @Route("/figures/{id}/editer", name="figures_edit", methods={"GET"})
+     * @Route("/nouvelle-figure", name="figures_create", methods={"GET", "POST"})
+     * @Route("/figures/{slug}/editer", name="figures_edit", methods={"GET"})
      */
-    public function form(Trick $trick = NULL, Request $request, EntityManagerInterface $manager)
+    public function form(request $request, EntityManagerInterface $manager): Response
     {
-        if (!$trick) {
-            $trick = new Trick();
-        }
-
-        $form = $this->createFormBuilder($trick)
-            ->add('name')
-            ->add('description')
-            ->add('category')
-            ->add('content')
-            ->add('author')
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            if (!$trick->getId()) {
-                $trick->setCreationDate(new \DateTime());
-            }
-
-            $manager->persist($trick);
-            $manager->flush();
-
-            return $this->redirectToRoute('figures_show', ['id' => $trick->getId()]);
-        }
-
-        return $this->render('figures/create.html.twig', [
-            'formTrick' => $form->createView(),
-            'editMode' => $trick->getId() != NULL
-        ]);
+        return $this->render('figures/create.html.twig');
     }
 
     /**
-     * @Route("/figures/{id}", name="figures_show", methods={"GET"})
+     * @Route("/figures/{slug}", name="figures_show", methods={"GET"})
      */
-    public function show(Trick $trick)
+    public function show(Trick $trick): Response
     {
         return $this->render('figures/show.html.twig', [
             'trick' => $trick
         ]);
+    }
+
+    /**
+     * @Route("/politique-de-confidentialite", name="privacy", methods={"GET"})
+     */
+    public function privacy(): Response
+    {
+        return $this->render('figures/privacy.html.twig');
     }
 }

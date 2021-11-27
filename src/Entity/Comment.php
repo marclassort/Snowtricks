@@ -19,40 +19,6 @@ class Comment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
-     * @ORM\JoinColumn(name="user_id", nullable=false)
-     * @Assert\Length(
-     *      min = 3, 
-     *      max = 50,
-     *      minMessage = "Votre pseudo doit être supérieur à {{ limit }} caractères.",
-     *      maxMessage = "Votre pseudo ne doit pas dépasser {{ limit }} caractères."
-     * )
-     */
-    private $username;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Length(
-     *      min = 3, 
-     *      max = 50,
-     *      minMessage = "Votre prénom doit être supérieur à {{ limit }} caractères.",
-     *      maxMessage = "Votre prénom ne doit pas dépasser {{ limit }} caractères."
-     * )
-     */
-    private $firstName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Length(
-     *      min = 3, 
-     *      max = 50,
-     *      minMessage = "Votre nom de famille doit être supérieur à {{ limit }} caractères.",
-     *      maxMessage = "Votre nom de famille ne doit pas dépasser {{ limit }} caractères."
-     * )
-     */
-    private $lastName;
-
-    /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(
      *      message = "Cette valeur ne doit pas être laissée blanche."
@@ -72,60 +38,20 @@ class Comment
     private $creationDate;
 
     /**
-     * @ORM\Column(type="boolean")
-     * @Assert\NotBlank(
-     *      message = "Cette valeur ne doit pas être laissée blanche."
-     * )
-     * @Assert\NotNull(
-     *      message = "Cette valeur ne doit pas être laissée nulle."
-     * )
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $isValid;
+    private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(?User $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
     }
 
     public function getContent(): ?string
@@ -152,14 +78,14 @@ class Comment
         return $this;
     }
 
-    public function getIsValid(): ?bool
+    public function getUser(): ?User
     {
-        return $this->isValid;
+        return $this->user;
     }
 
-    public function setIsValid(bool $isValid): self
+    public function setUser(?User $user): self
     {
-        $this->isValid = $isValid;
+        $this->user = $user;
 
         return $this;
     }
