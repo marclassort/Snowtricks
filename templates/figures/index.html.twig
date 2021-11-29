@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Tricks{{ parent() }}
+	Figures{{ parent() }}
 {% endblock %}
 
 
@@ -20,7 +20,7 @@
 					dans la catégorie
 					{{ trick.category }}</div>
 				<div class="content">
-					<img src="http://via.placeholder.com/350x150" alt="">
+					<img src="https://via.placeholder.com/350x150" alt="">
 					{{ trick.content | raw }}
 					<a href="{{ path('figures_show', {'id': trick.id}) }}" class="btn btn-primary">Lire la suite</a>
 				</div>

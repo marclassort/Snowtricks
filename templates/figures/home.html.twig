@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Home{{ parent() }}
+	Accueil{{ parent() }}
 {% endblock %}
 
 {% block body %}
@@ -34,7 +34,7 @@
 									-
 									{{ trick.category }}</div>
 								<div class="read-more">
-									<img src="http://via.placeholder.com/250x150" alt="">
+									<img src="https://via.placeholder.com/250x150" alt="">
 									<a href="{{ path('figures_show', {'slug': trick.slug}) }}" class="btn btn-primary">Lire la suite</a>
 								</div>
 							</article>

@@ -43,6 +43,10 @@ class TrickController extends AbstractController
      */
     public function form(request $request, EntityManagerInterface $manager): Response
     {
+        $trick = new Trick();
+
+        
+
         return $this->render('figures/create.html.twig');
     }
 
