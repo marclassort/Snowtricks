@@ -1,22 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil
+{% block title %}
+	Tricks{{ parent() }}
 {% endblock %}
+
 
 {% block body %}
 
-	<div class="example-wrapper">
-		<section class="figures">
+	<h1>Figures</h1>
+	<section class="figures">
+
+		{% for trick in tricks %}
 			<article>
-				<h2>Nom de la figure</h2>
-				<div class="metadata">Rédigé le 19/11/2021 à 15h00 dans la catégorie Figures</div>
+				<h2>{{ trick.name }}</h2>
+				<div class="metadata">Rédigé le
+					{{ trick.creationDate | date('d/m/Y') }}
+					à
+					{{ trick.creationDate | date('h:m') }}
+					dans la catégorie
+					{{ trick.category }}</div>
 				<div class="content">
 					<img src="http://via.placeholder.com/350x150" alt="">
-					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit facere illo nulla dolorem. Illo, ab.</p>
-					<p>Consequatur necessitatibus nostrum eaque. Omnis dolorum unde facilis eligendi odio quos quaerat debitis non quo!</p>
-					<a href="{{ path('figures_show') }}" class="btn btn-primary">Lire la suite</a>
+					{{ trick.content | raw }}
+					<a href="{{ path('figures_show', {'id': trick.id}) }}" class="btn btn-primary">Lire la suite</a>
 				</div>
 			</article>
-		</section>
-	</div>
+		{% endfor %}
+
+	</section>
 {% endblock %}

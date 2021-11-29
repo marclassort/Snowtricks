@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -86,7 +87,7 @@ class User
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="array")
      * @Assert\NotBlank(
      *      message = "Cette valeur ne doit pas être laissée blanche."
      * )
@@ -94,17 +95,23 @@ class User
      *      message = "Cette valeur ne doit pas être laissée nulle."
      * )
      */
-    private $role;
+    private $role = [];
 
     /**
-     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="author")
+     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="author", orphanRemoval=true)
      */
     private $tricks;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="username")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user", orphanRemoval=true)
      */
     private $comments;
+
+    public function __construct()
+    {
+        $this->tricks = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -183,12 +190,12 @@ class User
         return $this;
     }
 
-    public function getRole(): ?string
+    public function getRole(): ?array
     {
         return $this->role;
     }
 
-    public function setRole(string $role): self
+    public function setRole(array $role): self
     {
         $this->role = $role;
 
@@ -207,7 +214,7 @@ class User
     {
         if (!$this->tricks->contains($trick)) {
             $this->tricks[] = $trick;
-            $trick->setAuthor($this->getUsername());
+            $trick->setAuthor($this);
         }
 
         return $this;
@@ -237,7 +244,7 @@ class User
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
-            $comment->setUsername($this->getUsername());
+            $comment->setUser($this);
         }
 
         return $this;
@@ -247,8 +254,8 @@ class User
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getUsername() === $this) {
-                $comment->setUsername(null);
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
             }
         }
 

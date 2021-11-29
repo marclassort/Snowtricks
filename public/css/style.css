@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;200;300;400;500;600;700&display=swap");
+
+* {
+  font-family: "Josefin Sans", Arial, Helvetica, sans-serif;
+}
+
+/* Homepage */
+.background-image {
+  background-image: url("../img/snowboard-home.jpeg");
+  background-size: cover;
+  height: 100vh;
+}
+
+.accroche-paragraphe {
+  font-size: 5rem;
+  color: white;
+  padding-top: 5%;
+}
+
+.tricks-arrow {
+  position: absolute;
+  right: 1%;
+  bottom: 0%;
+}
+
+/* ----------- iPhone X ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) {
+}
