@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Éditer son profil{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<h1>Éditer son profil</h1>
+
+	<div class="container">
+		{{ form_start(form) }}
+		{{ form_row(form.username) }}
+		{{ form_row(form.firstName) }}
+		{{ form_row(form.lastName) }}
+		{{ form_row(form.phoneNumber) }}
+		{{ form_row(form.email) }}
+		{{ form_row(form.plainPassword) }}
+		<input type="submit" value="Sauvegarder" class="btn btn-primary mb-5">
+		{{ form_end(form) }}
+	</div>
+
+{% endblock %}

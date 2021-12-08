@@ -4,7 +4,67 @@
 	Se logger{{ parent() }}
 {% endblock %}
 
+{% block body %}
+	{% if error is defined %}
+		<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+	{% endif %}
+
+	<h1>Se connecter</h1>
+
+	<form action="{{ path('app_login') }}" method="post">
+
+		<div class="mb-3">
+			<label for="username">Email :</label>
+			<input type="text" id="username" name="_username" value="" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="password">Mot de passe :</label>
+			<input type="password" id="password" name="_password" class="form-control">
+		</div>
+		<div class="mb-3">
+			<div class="form-check"><input type="checkbox" id="login_form_agreeTerms" name="login_form[agreeTerms]" required="required" class="form-check-input" value="1">
+				<label class="form-check-label required" for="login_form_agreeTerms">J'accepte les termes</label>
+			</div>
+		</div>
+	</form>
+
+	{# {{ form_start(form) }} #}
+{# {{ form_row(form.email, {
+
+label: 'Email'
+}) }}
+{{ form_row(form.plainPassword, {
+
+
+	label: 'Mot de passe'
+}) }}
+{{ form_row(form.agreeTerms, {
+
+label: 'J\'accepte les termes'
+}) }} #}
+
+	{# If you want to control the URL the user is redirected to on success
+													<input type="hidden" name="_target_path" value="/account"/> #}
+	{# <button type="submit" class="btn btn-primary mb-5"> Se connecter</button> #}
+	{# {{ form_end(form) }} #}
+
+{% endblock %}
+
+{# {% extends 'base.html.twig' %}
+
+{% block title %}
+	Se logger{{ parent() }}
+{% endblock %}
 
 {% block body %}
-	<h1>Sign in</h1>
-{% endblock %}
+	<h1>Se connecter</h1>
+
+	<div class="container">
+		{{ form_start(form) }}
+		{{ form_row(form.username) }}
+		{{ form_row(form.plainPassword) }}
+		<input type="submit" value="Sauvegarder" class="btn btn-primary mb-5">
+		{{ form_end(form) }}
+	</div>
+
+{% endblock %} #}

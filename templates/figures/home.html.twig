@@ -22,22 +22,25 @@
 	<span id="tricks">
 		<div class="container-fluid">
 			<div class="container">
-				<div class="row">
+				<div class="row mt-5">
 					{% for trick in tricks %}
 						<div class="col-3">
-							<article>
-								<h4>{{ trick.name }}</h4>
-								<div class="metadata">
-									{{ trick.creationDate | date('d/m/Y') }}
-									à
-									{{ trick.creationDate | date('h:m') }}
-									-
-									{{ trick.category }}</div>
-								<div class="read-more">
-									<img src="https://via.placeholder.com/250x150" alt="">
-									<a href="{{ path('figures_show', {'slug': trick.slug}) }}" class="btn btn-primary">Lire la suite</a>
-								</div>
-							</article>
+							<a href="{{ path('figures_show', {'slug': trick.slug}) }}" class="btn btn-primary mt-5">
+								<article>
+									<div class="read-more">
+										<img src="https://via.placeholder.com/250x150" alt="">
+									</div>
+									<h6>{{ trick.name }}</h6>
+									<div class="metadata">
+										{{ trick.creationDate | date('d/m/Y') }}
+										à
+										{{ trick.creationDate | date('h:m') }}
+										-
+										{{ trick.category }}</div>
+									<i class="far fa-edit"></i>
+									<i class="far fa-trash-alt"></i>
+								</article>
+							</a>
 						</div>
 					{% endfor %}
 				</div>

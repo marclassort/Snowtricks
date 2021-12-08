@@ -8,24 +8,24 @@
 {% block body %}
 
 	<h1>Figures</h1>
-	<section class="figures">
-
-		{% for trick in tricks %}
-			<article>
-				<h2>{{ trick.name }}</h2>
-				<div class="metadata">Rédigé le
-					{{ trick.creationDate | date('d/m/Y') }}
-					à
-					{{ trick.creationDate | date('h:m') }}
-					dans la catégorie
-					{{ trick.category }}</div>
-				<div class="content">
-					<img src="https://via.placeholder.com/350x150" alt="">
-					{{ trick.content | raw }}
-					<a href="{{ path('figures_show', {'id': trick.id}) }}" class="btn btn-primary">Lire la suite</a>
-				</div>
-			</article>
-		{% endfor %}
-
+	<section class="figures text-center">
+		<div class="container">
+			{% for trick in tricks %}
+				<article>
+					<h2>{{ trick.name }}</h2>
+					<div class="metadata">Rédigé le
+						{{ trick.creationDate | date('d/m/Y') }}
+						à
+						{{ trick.creationDate | date('h:m') }}
+						dans la catégorie
+						{{ trick.category }}</div>
+					<div class="content">
+						<img src="https://via.placeholder.com/350x150" alt="">
+						{{ trick.content | raw }}
+						<a href="{{ path('figures_show', {'id': trick.id}) }}" class="btn btn-primary">Lire la suite</a>
+					</div>
+				</article>
+			{% endfor %}
+		</div>
 	</section>
 {% endblock %}

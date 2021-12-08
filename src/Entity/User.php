@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"username"}, message="Ce pseudo est déjà pris, veuillez en choisir un autre.")
  * @UniqueEntity(fields={"email"}, message="Cette adresse e-mail existe déjà.")
  */
-class User
+class User implements PasswordAuthenticatedUserInterface, UserInterface
 {
     /**
      * @ORM\Id
@@ -87,6 +89,11 @@ class User
     private $password;
 
     /**
+     * @var string The password confirmation
+     */
+    private $plainPassword;
+
+    /**
      * @ORM\Column(type="array")
      * @Assert\NotBlank(
      *      message = "Cette valeur ne doit pas être laissée blanche."
@@ -107,15 +114,30 @@ class User
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVerified = false;
+
     public function __construct()
     {
         $this->tricks = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->username;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUserIdentifier()
+    {
+        return $this->username;
     }
 
     public function getUsername(): ?string
@@ -190,12 +212,29 @@ class User
         return $this;
     }
 
-    public function getRole(): ?array
+    public function getPlainPassword(): ?string
+    {
+        return (string) $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $password): self
+    {
+        $this->plainPassword = $password;
+
+        return $this;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function getRole()
     {
         return $this->role;
     }
 
-    public function setRole(array $role): self
+    public function setRole($role): self
     {
         $this->role = $role;
 
@@ -258,6 +297,27 @@ class User
                 $comment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

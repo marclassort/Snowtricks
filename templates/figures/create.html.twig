@@ -7,4 +7,21 @@
 {% block body %}
 	<h1>Création d'une figure</h1>
 
+	<div class="container">
+		{{ form_start(form) }}
+		{{ form_row(form.name) }}
+		{{ form_row(form.description) }}
+		{{ form_row(form.category) }}
+		{{ form_row(form.content) }}
+		{{ form_label(form.author, null, {
+			'label': 'Auteur',
+			'label_attr': {'class': 'foo'}
+		}) }}
+		{{ form_errors(form.author) }}
+		{{ form_widget(form.author) }}
+		{{ form_help(form.author) }}
+		<input type="submit" value="Sauvegarder" class="btn btn-primary mt-5 mb-5">
+		{{ form_end(form) }}
+	</div>
+
 {% endblock %}

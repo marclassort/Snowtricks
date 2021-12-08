@@ -4,22 +4,30 @@
 	Voir une figure{{ parent() }}
 {% endblock %}
 
-
 {% block body %}
 	<section class="figures">
-		<article>
-			<h2>{{ trick.name }}</h2>
-			<div class="metadata">Rédigé le
-				{{ trick.creationDate | date('d/m/Y') }}
-				à
-				{{ trick.creationDate | date('h:m') }}
-				dans la catégorie
-				{{ trick.category }}
+		<div class="container figures-container">
+			<div class="row">
+				<div class="col-2"></div>
+				<div class="col-8">
+					<article>
+						<h2>{{ trick.name }}</h2>
+						<div class="metadata">Rédigé le
+							{{ trick.creationDate | date('d/m/Y') }}
+							à
+							{{ trick.creationDate | date('h:m') }}
+							dans la catégorie
+							{{ trick.category }}
+						</div>
+						<div class="content mt-2">
+							<img src="https://via.placeholder.com/800x350" alt="">
+							{{ trick.content | raw }}
+						</div>
+					</article>
+				</div>
+				<div class="col-2"></div>
 			</div>
-			<div class="content">
-				<img src="https://via.placeholder.com/350x150" alt="">
-				{{ trick.content | raw }}
-			</div>
-		</article>
+
+		</div>
 	</section>
 {% endblock %}
