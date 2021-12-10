@@ -32,9 +32,9 @@
 									</div>
 									<h6>{{ trick.name }}</h6>
 									<div class="metadata">
-										{{ trick.creationDate | date('d/m/Y') }}
+										{{ trick.createdAt | date('d/m/Y') }}
 										à
-										{{ trick.creationDate | date('h:m') }}
+										{{ trick.createdAt | date('h:m') }}
 										-
 										{{ trick.category }}</div>
 									<i class="far fa-edit"></i>

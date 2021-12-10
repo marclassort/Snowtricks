@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\TrickRepository;
+use App\Entity\Traits\Timestampable;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,11 +12,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
+ * @ORM\HasLifecycleCallbacks
  * @UniqueEntity(fields={"name"}, message="Ce nom de figure est déjà pris.")
  * @UniqueEntity(fields={"slug"}, message="Ce slug existe déjà.")
  */
 class Trick
 {
+    use Timestampable;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -69,22 +72,6 @@ class Trick
     private $content;
 
     /**
-     * @ORM\Column(type="date")
-     * @Assert\DateTime(
-     *      message = "Ce n'est pas une date valide."
-     * )
-     */
-    private $creationDate;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     * @Assert\DateTime(
-     *      message = "Ce n'est pas une date valide."
-     * )
-     */
-    private $modifDate;
-
-    /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\Length(
      *      min = 3, 
@@ -121,7 +108,7 @@ class Trick
     {
         $this->media = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->creationDate = new DateTimeImmutable();
+        // $this->createdAt = new DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -173,30 +160,6 @@ class Trick
     public function setContent(string $content): self
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    public function getCreationDate(): ?\DateTimeInterface
-    {
-        return $this->creationDate;
-    }
-
-    public function setCreationDate(\DateTimeInterface $creationDate): self
-    {
-        $this->creationDate = $creationDate;
-
-        return $this;
-    }
-
-    public function getModifDate(): ?\DateTimeInterface
-    {
-        return $this->modifDate;
-    }
-
-    public function setModifDate(?\DateTimeInterface $modifDate): self
-    {
-        $this->modifDate = $modifDate;
 
         return $this;
     }

@@ -8,7 +8,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Trick;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -27,7 +26,7 @@ class TrickController extends AbstractController
      */
     public function home(TrickRepository $repo): Response
     {
-        $tricks = $repo->findAll();
+        $tricks = $repo->findBy([], ['createdAt' => 'DESC']);
 
         return $this->render('figures/home.html.twig', [
             'tricks' => $tricks

@@ -36,7 +36,7 @@ class UserFixtures extends Fixture
                     ->setDescription($faker->sentence())
                     ->setCategory($faker->word())
                     ->setContent($content)
-                    ->setCreationDate($faker->dateTimeBetween('-6 months'))
+                    ->setCreatedAt($faker->dateTimeBetween('-6 months'))
                     ->setAuthor($user)
                     ->setSlug($faker->slug(3));
 

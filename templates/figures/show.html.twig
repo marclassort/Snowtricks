@@ -13,9 +13,9 @@
 					<article>
 						<h2>{{ trick.name }}</h2>
 						<div class="metadata">Rédigé le
-							{{ trick.creationDate | date('d/m/Y') }}
+							{{ trick.createdAt | date('d/m/Y') }}
 							à
-							{{ trick.creationDate | date('h:m') }}
+							{{ trick.createdAt | date('h:m') }}
 							dans la catégorie
 							{{ trick.category }}
 						</div>
