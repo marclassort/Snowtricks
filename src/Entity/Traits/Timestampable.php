@@ -2,11 +2,14 @@
 
 namespace App\Entity\Traits;
 
+use DateTimeInterface;
+
 trait Timestampable
 {
     /**
      * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
-     * @Assert\DateTime(
+     * @Assert\Type(
+     *      type = "\DateTimeInterface",
      *      message = "Ce n'est pas une date valide."
      * )
      */
@@ -14,7 +17,8 @@ trait Timestampable
 
     /**
      * @ORM\Column(type="datetime", nullable=true, options={"default": "CURRENT_TIMESTAMP"})
-     * @Assert\DateTime(
+     * @Assert\Type(
+     *      type = "\DateTimeInterface",
      *      message = "Ce n'est pas une date valide."
      * )
      */
@@ -48,12 +52,12 @@ trait Timestampable
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
-    public function updateTimestamps()
+    public function updateTimestamps(): void
     {
         if ($this->getCreatedAt() === NULL) {
-            $this->setCreatedAt(new \DateTime());
+            $this->setCreatedAt(new \DateTime('now'));
         }
 
-        $this->setUpdatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime('now'));
     }
 }

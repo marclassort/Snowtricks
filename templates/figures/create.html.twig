@@ -5,23 +5,60 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Création d'une figure</h1>
-
-	<div class="container">
-		{{ form_start(form) }}
-		{{ form_row(form.name) }}
-		{{ form_row(form.description) }}
-		{{ form_row(form.category) }}
-		{{ form_row(form.content) }}
-		{{ form_label(form.author, null, {
-			'label': 'Auteur',
-			'label_attr': {'class': 'foo'}
-		}) }}
-		{{ form_errors(form.author) }}
-		{{ form_widget(form.author) }}
-		{{ form_help(form.author) }}
-		<input type="submit" value="Sauvegarder" class="btn btn-primary mt-5 mb-5">
-		{{ form_end(form) }}
+	<div class="row mt-5">
+		<div class="col-md-6 mx-auto">
+			<div class="container">
+				<h1>Création d'une figure</h1>
+				<div class="mt-5">
+					{{ include('figures/_form.html.twig')}}
+				</div>
+				{# <div class="mt-5">
+													{{ form_start(form) }}
+													{{ form_row(form.name) }}
+													{{ form_row(form.description) }}
+													{{ form_row(form.category) }}
+													{{ form_row(form.content) }}
+													<div class="mb-3">
+														{{ form_label(form.author, null, {
+														'label': 'Auteur',
+														'label_attr': {'class': 'foo'}
+													}) }}
+														{{ form_errors(form.author) }}
+														{{ form_widget(form.author) }}
+														{{ form_help(form.author) }}
+													</div>
+													<h3>Rajouter une ou plusieurs images</h3>
+													{{ form_row(form.images) }}
+													<h3>Rajouter une ou plusieurs vidéos</h3>
+													{{ form_row(form.videos) }}
+													<input type="submit" value="Sauvegarder" class="btn btn-danger col-12 mt-2 mb-5">
+													{{ form_end(form) }}
+												</div> #}
+			</div>
+		</div>
 	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script>
+		jQuery(document).ready(function () {
+jQuery('.add-another-collection-widget').click(function (e) {
+
+var list = jQuery(jQuery(this).attr('data-list-selector'));
+var counter = list.data('widget-counter') || list.children().length;
+
+var newWidget = list.attr('data-prototype');
+newWidget = newWidget.replace(/__name__/g, counter);
+counter++;
+list.data('widget-counter', counter);
+
+var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
+newElem.appendTo(list);
+});
+});
+	</script>
+
 
 {% endblock %}

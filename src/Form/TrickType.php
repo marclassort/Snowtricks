@@ -4,6 +4,9 @@ namespace App\Form;
 
 use App\Entity\Trick;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,18 +18,45 @@ class TrickType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom de la figure'
             ])
             ->add('description', TextType::class, [
                 'label' => 'Description'
             ])
-            ->add('category', TextType::class, [
-                'label' => 'Catégorie'
+            ->add('category', ChoiceType::class, [
+                'label' => 'Catégorie',
+                'choices' => [
+                    'Catégorie 1' => 'Catégorie 1',
+                    'Catégorie 2' => 'Catégorie 2',
+                    'Catégorie 3' => 'Catégorie 3'
+                ]
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu'
             ])
-            ->add('author');
+            ->add('author')
+            ->add('images', CollectionType::class, [
+                'entry_type' => ImageType::class,
+                'entry_options' => [
+                    'attr' => ['class' => 'image-class']
+                ],
+                'allow_add' => true,
+                'allow_delete' => true
+            ])
+            ->add('videos', CollectionType::class, [
+                'entry_type' => VideoType::class,
+                'entry_options' => [
+                    'attr' => ['class' => 'video-class']
+                ],
+                'allow_add' => true,
+                'allow_delete' => true
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Sauvegarder',
+                'attr' => [
+                    'class' => 'btn btn-danger col-12 mt-2 mb-5'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

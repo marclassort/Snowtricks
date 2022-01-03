@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -20,7 +21,6 @@ class UserFixtures extends Fixture
             $user->setUsername($faker->name)
                 ->setFirstName(explode(' ', trim($faker->name))[0])
                 ->setLastName(explode(' ', trim($faker->name))[1])
-                ->setPhoneNumber($faker->phoneNumber())
                 ->setEmail($faker->email())
                 ->setPassword($faker->password())
                 ->setRole("ROLE_USER");
@@ -28,7 +28,12 @@ class UserFixtures extends Fixture
             $manager->persist($user);
 
             for ($j = 1; $j <= mt_rand(3, 7); $j++) {
+                $image = new Image();
+
                 $trick = new Trick();
+
+                $image->setName($faker->word())
+                    ->setTrickUnique($trick);
 
                 $content = '<p>' . implode('</p></p>', $faker->paragraphs(5)) . '</p>';
 
@@ -37,9 +42,11 @@ class UserFixtures extends Fixture
                     ->setCategory($faker->word())
                     ->setContent($content)
                     ->setCreatedAt($faker->dateTimeBetween('-6 months'))
+                    ->setSlug($faker->slug(3))
                     ->setAuthor($user)
-                    ->setSlug($faker->slug(3));
+                    ->setFirstImage($image);
 
+                $manager->persist($image);
                 $manager->persist($trick);
             }
         }

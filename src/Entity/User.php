@@ -37,7 +37,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(
      *      min = 3, 
      *      max = 50,
@@ -48,7 +48,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(
      *      min = 3, 
      *      max = 50,
@@ -57,17 +57,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
      * )
      */
     private $lastName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(
-     *      message = "Cette valeur ne doit pas être laissée blanche."
-     * )
-     * @Assert\NotNull(
-     *      message = "Cette valeur ne doit pas être laissée nulle."
-     * )
-     */
-    private $phoneNumber;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -95,12 +84,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
 
     /**
      * @ORM\Column(type="array")
-     * @Assert\NotBlank(
-     *      message = "Cette valeur ne doit pas être laissée blanche."
-     * )
-     * @Assert\NotNull(
-     *      message = "Cette valeur ne doit pas être laissée nulle."
-     * )
      */
     private $role = [];
 
@@ -172,18 +155,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getPhoneNumber(): ?string
-    {
-        return $this->phoneNumber;
-    }
-
-    public function setPhoneNumber(string $phoneNumber): self
-    {
-        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }
