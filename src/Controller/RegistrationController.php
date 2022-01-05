@@ -8,6 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,14 +19,14 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/enregistrement", name="app_register", methods={"GET", "POST"})
      */
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -32,20 +34,20 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $token = $request->request->get('token');
+
+            $email = (new Email())
+                ->from('marc.lassort@gmail.com')
+                ->to($form->get('email'))
+                ->subject('Snowtricks - Confirmation du compte')
+                ->text('<p>Bonjour</p><p>Pour valider votre compte sur notre site communautaire Snowtricks, vous devez encore le valider en cliquant sur ce lien présent <a href="https://localhost:8000/verification/' . $token . '">ici</a>.</p><p>Merci pour votre confiance</p><p>L\'équipe Snowtrick</p>');
+
+            $mailer->send($email);
+
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // generate a signed url and email it to the user
-            // $this->emailVerifier->sendEmailConfirmation(
-            //     'app_verify_email',
-            //     $user,
-            //     (new TemplatedEmail())
-            //         ->from(new Address('marc.lassort@gmail.com', 'Marc Mail Bot'))
-            //         ->to($user->getEmail())
-            //         ->subject('Confirmez votre adresse email')
-            //         ->htmlTemplate('registration/confirmation_email.html.twig')
-            // );
-            // do anything else you need here, like send an email
+            $this->addFlash('success', 'Le compte a bien été créé mais doit encore être validé : regardez vos mails !');
 
             return $this->redirectToRoute('home');
         }
@@ -60,12 +62,6 @@ class RegistrationController extends AbstractController
      */
     public function verifyUserEmail(Request $request): Response
     {
-        // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-        // validate email confirmation link, sets User::isVerified=true and persists
-
-
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Votre adresse email a bien été vérifiée.');
 
         return $this->redirectToRoute('app_register');
