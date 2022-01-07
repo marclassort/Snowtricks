@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Form\LoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,20 +12,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class LoginController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login", methods={"GET"})
+     * @Route("/login", name="app_login", methods={"GET", "POST"})
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return $this->render('login/index.html.twig', [
-            'controller_name' => 'LoginController',
-        ]);
-    }
+        $user = new User();
+        $form = $this->createForm(LoginType::class, $user);
+        $form->handleRequest($request);
 
-    /**
-     * @Route("/enregistrement", name="app_registration", methods={"GET", "POST"})
-     */
-    public function signUp(): Response
-    {
-        return $this->render('login/sign-up.html.twig');
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('login/index.html.twig', [
+            'loginForm' => $form->createView()
+        ]);
     }
 }

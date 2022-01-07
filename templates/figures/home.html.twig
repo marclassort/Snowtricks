@@ -1,11 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Home{{ parent() }}
+	Accueil{{ parent() }}
 {% endblock %}
 
 {% block body %}
 
+	<style>
+		.trick {
+			display: none;
+		}
+	</style>
 	<div class="container-fluid p-0">
 		<section class="header">
 			<div class="background-image text-center">
@@ -20,27 +25,41 @@
 	</div>
 
 	<span id="tricks">
-		<div class="container-fluid">
-			<div class="container">
-				<div class="row">
-					{% for trick in tricks %}
-						<div class="col-3">
+		<div class="container p-5">
+			<div class="row">
+				{% for trick in tricks %}
+					<div class="col-lg-4 text-center trick mt-5">
+						<a href="{{ path('figures_show', {'slug': trick.slug}) }}" class="btn btn-primary p-0 border-0" style="border-radius: 15px">
 							<article>
-								<h4>{{ trick.name }}</h4>
-								<div class="metadata">
-									{{ trick.creationDate | date('d/m/Y') }}
-									à
-									{{ trick.creationDate | date('h:m') }}
-									-
-									{{ trick.category }}</div>
 								<div class="read-more">
-									<img src="http://via.placeholder.com/250x150" alt="">
-									<a href="{{ path('figures_show', {'slug': trick.slug}) }}" class="btn btn-primary">Lire la suite</a>
+									{% if trick.images|length == 0 %}
+										<img src="{{ asset('/img/snowboard-home.jpeg') }}" alt="" style="border-top-left-radius: 15px;border-top-right-radius: 15px; height: 250px; width: 360px; object-fit: cover;" class="d-block">
+									{% endif %}
+									{% for image in trick.images %}
+										{% if loop.first %}
+											<img src="{{ asset('/uploads/' ~ image.name) }}" alt="" style="border-top-left-radius: 15px;border-top-right-radius: 15px; height: 250px; width: 360px; object-fit: cover;" class="d-block">
+										{% endif %}
+									{% endfor %}
+								</div>
+								<h6>{{ trick.name }}</h6>
+								<div class="metadata">
+									{{ trick.createdAt | date('d/m/Y') }}
+									à
+									{{ trick.createdAt | date('h:m') }}
+									-
+									{{ trick.category }}
 								</div>
 							</article>
-						</div>
-					{% endfor %}
-				</div>
+						</a>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="container">
+			<div class="row text-center m-3 mb-5">
+				<a href="#" id="loadMoreTrick">
+					<i class="fas fa-plus-circle fa-3x"></i>
+				</a>
 			</div>
 		</div>
 	</span>

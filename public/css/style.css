@@ -4,6 +4,27 @@
   font-family: "Josefin Sans", Arial, Helvetica, sans-serif;
 }
 
+.alert {
+  padding: 10px;
+  color: white;
+  text-align: center;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+}
+
+.alert-success {
+  background-color: green;
+}
+
+.alert-error {
+  background-color: red;
+}
+
+.alert-info {
+  background-color: blue;
+}
+
 /* Homepage */
 .background-image {
   background-image: url("../img/snowboard-home.jpeg");
@@ -21,6 +42,17 @@
   position: absolute;
   right: 1%;
   bottom: 0%;
+}
+
+/* Figures */
+
+/* Footer */
+.social-networks a {
+  color: unset !important;
+  text-decoration: none;
+}
+.social-networks-links {
+  margin-right: 15px !important;
 }
 
 /* ----------- iPhone X ----------- */

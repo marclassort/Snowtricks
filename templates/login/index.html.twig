@@ -1,10 +1,32 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Sign in{{ parent() }}
+	Se logger{{ parent() }}
 {% endblock %}
 
-
 {% block body %}
-	<h1>Sign in</h1>
+	{% if error is defined %}
+		<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+	{% endif %}
+
+	<div class="row mt-5">
+		<div class="col-md-6 mx-auto">
+			<div class="container">
+				<h1>Se connecter</h1>
+				<div class="mt-5">
+					{{ form_start(loginForm) }}
+					{{ form_row(loginForm.username, {
+							label: 'Pseudo'
+						})}}
+					{{ form_row(loginForm.password, {
+							label: 'Mot de passe'
+						}) }}
+					<button type="submit" class="btn btn-primary mb-5 col-12">S'enregistrer</button>
+					{{ form_end(loginForm) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 {% endblock %}

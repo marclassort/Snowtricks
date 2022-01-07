@@ -1,25 +1,51 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	See a trick{{ parent() }}
+	Voir une figure{{ parent() }}
 {% endblock %}
-
 
 {% block body %}
 	<section class="figures">
-		<article>
-			<h2>{{ trick.name }}</h2>
-			<div class="metadata">Rédigé le
-				{{ trick.creationDate | date('d/m/Y') }}
-				à
-				{{ trick.creationDate | date('h:m') }}
-				dans la catégorie
-				{{ trick.category }}
+		<div class="container figures-container">
+			<div class="row">
+				<div class="col-2"></div>
+				<div class="col-8">
+					<article class="mt-5">
+						{% if trick.images|length == 0 %}
+							<img src="{{ asset('/img/snowboard-home.jpeg') }}" alt="image principale" style="border-top-left-radius: 15px;border-top-right-radius: 15px;" width="850">
+						{% endif %}
+						{% for image in trick.images %}
+							{% if loop.first %}
+								<img src="{{ asset('/uploads/' ~ image.name) }}" alt="image principale" style="border-top-left-radius: 15px;border-top-right-radius: 15px;" width="850">
+							{% endif %}
+						{% endfor %}
+						<h2 class="mt-5">{{ trick.name }}</h2>
+						<div class="metadata">Rédigé le
+							{{ trick.createdAt | date('d/m/Y') }}
+							à
+							{{ trick.createdAt | date('h:m') }}
+							dans la catégorie
+							{{ trick.category }}
+						</div>
+						<div class="content mt-3">
+							{{ trick.content | raw }}
+						</div>
+						<div class="text-center mt-5 mb-5">
+							<a href="{{ path('figures_edit', {slug: trick.slug}) }}" class="m-2">
+								<span class="fas fa-edit"></span>
+							</a>
+							<a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sûr de vouloir supprimer cette figure ?') && document.getElementById('js-trick-delete-form').submit();" class="m-2">
+								<span class="fas fa-trash-alt"></span>
+							</a>
+						</div>
+						<form id="js-trick-delete-form" action="{{ path('figures_delete', {slug: trick.slug}) }}" method="POST" class="d-none">
+							<input type="hidden" name="token" value="{{ csrf_token('trick_deletion_' ~ trick.id) }}">
+							<input type="hidden" name="_method" value="DELETE">
+						</form>
+					</article>
+				</div>
+				<div class="col-2"></div>
 			</div>
-			<div class="content">
-				<img src="http://via.placeholder.com/350x150" alt="">
-				{{ trick.content | raw }}
-			</div>
-		</article>
+		</div>
 	</section>
 {% endblock %}
