@@ -18,10 +18,6 @@ $(function () {
     });
 });
 
-// document.getElementsByClassName('add-another-collection-widget').click(function (e) {
-//     alert("test");
-// })
-
 /* Add another collection widget */
 jQuery(document).ready(function () {
 jQuery('.add-another-collection-widget').click(function (e) {
