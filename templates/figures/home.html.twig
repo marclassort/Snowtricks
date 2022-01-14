@@ -29,28 +29,43 @@
 			<div class="row">
 				{% for trick in tricks %}
 					<div class="col-lg-4 text-center trick mt-5">
-						<a href="{{ path('figures_show', {'slug': trick.slug}) }}" class="btn btn-primary p-0 border-0" style="border-radius: 15px">
+						<div class="btn-primary p-0 border-0" style="border-radius: 15px">
 							<article>
-								<div class="read-more">
-									{% if trick.images|length == 0 %}
-										<img src="{{ asset('/img/snowboard-home.jpeg') }}" alt="" style="border-top-left-radius: 15px;border-top-right-radius: 15px; height: 250px; width: 360px; object-fit: cover;" class="d-block">
-									{% endif %}
-									{% for image in trick.images %}
-										{% if loop.first %}
-											<img src="{{ asset('/uploads/' ~ image.name) }}" alt="" style="border-top-left-radius: 15px;border-top-right-radius: 15px; height: 250px; width: 360px; object-fit: cover;" class="d-block">
+								<a href="{{ path('figures_show', {'slug': trick.slug}) }}">
+									<div class="read-more">
+										{% if trick.images|length == 0 %}
+											<img src="{{ asset('/img/snowboard-home.jpeg') }}" alt="" style="border-top-left-radius: 15px;border-top-right-radius: 15px; height: 250px; width: 100%; object-fit: cover;" class="d-block">
 										{% endif %}
-									{% endfor %}
-								</div>
-								<h6>{{ trick.name }}</h6>
-								<div class="metadata">
-									{{ trick.createdAt | date('d/m/Y') }}
-									à
-									{{ trick.createdAt | date('h:m') }}
-									-
-									{{ trick.category }}
+										{% for image in trick.images %}
+											{% if loop.first %}
+												<img src="{{ asset('/uploads/' ~ image.name) }}" alt="" style="border-top-left-radius: 15px;border-top-right-radius: 15px; height: 250px; width: 100%; object-fit: cover;" class="d-block">
+											{% endif %}
+										{% endfor %}
+									</div>
+								</a>
+								<div class="container-fluid">
+									<div class="row mt-2">
+										<div class="col-8">
+											<h6 class="p-2">{{ trick.name }}</h6>
+										</div>
+										<div class="col">
+											<a href="{{ path('figures_edit', {slug: trick.slug}) }}" class="text-white">
+												<span class="fas fa-edit m-2"></span>
+											</a>
+										</div>
+										<div class="col">
+											<a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sûr de vouloir supprimer cette figure ?') && document.getElementById('js-trick-delete-form').submit();">
+												<span class="fas fa-trash-alt m-2 text-white"></span>
+											</a>
+											<form id="js-trick-delete-form" action="{{ path('figures_delete', {slug: trick.slug}) }}" method="POST" class="d-none">
+												<input type="hidden" name="token" value="{{ csrf_token('trick_deletion_' ~ trick.id) }}">
+												<input type="hidden" name="_method" value="DELETE">
+											</form>
+										</div>
+									</div>
 								</div>
 							</article>
-						</a>
+						</div>
 					</div>
 				{% endfor %}
 			</div>

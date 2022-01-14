@@ -2,8 +2,8 @@
 
 namespace App\Services\Handlers;
 
-use App\Entity\Image;
 use App\Entity\Trick;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -32,6 +32,20 @@ class MediaHandler extends AbstractController
                 $newImage->setName($newImageName);
                 $newImage->setTrick($trick);
             }
+        }
+    }
+
+    public function managePicture($request, $user, $form, $imagePath)
+    {
+        /** @var UploadedFile $images */
+        if (isset($request->files->all()['user']['picture'])) {
+            $picture = $request->files->all()['user']['picture'];
+        }
+
+        if (isset($picture)) {
+            $newPictureName = $this->addPicture($picture, $user, $imagePath);
+
+            $user->setPicture($newPictureName);
         }
     }
 
@@ -64,6 +78,14 @@ class MediaHandler extends AbstractController
         }
 
         return $newImage;
+    }
+
+    public function addPicture($picture, User $user, $imagePath)
+    {
+        $newPicture = $this->uploadImage($picture, $imagePath);
+        $user->setPicture($newPicture);
+
+        return $newPicture;
     }
 
     public function addVideos($videos, Trick $trick, $videoPath)

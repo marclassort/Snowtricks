@@ -4,17 +4,23 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Services\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends AbstractController
 {
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
 
     /**
      * @Route("/enregistrement", name="app_register", methods={"GET", "POST"})
@@ -34,15 +40,10 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $token = $request->request->get('token');
+            $submittedToken = $user->getToken();
 
-            $email = (new Email())
-                ->from('marc.lassort@gmail.com')
-                ->to($form->get('email'))
-                ->subject('Snowtricks - Confirmation du compte')
-                ->text('<p>Bonjour</p><p>Pour valider votre compte sur notre site communautaire Snowtricks, vous devez encore le valider en cliquant sur ce lien présent <a href="https://localhost:8000/verification/' . $token . '">ici</a>.</p><p>Merci pour votre confiance</p><p>L\'équipe Snowtrick</p>');
-
-            $mailer->send($email);
+            $mailer = new Mailer($mailer);
+            $mailer->sendMail($form->get('email')->getData(), $submittedToken, $user);
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -53,17 +54,29 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'registrationForm' => $form->createView()
         ]);
     }
 
     /**
      * @Route("/verification/{token}", name="app_verify_email", methods={"GET", "POST"})
      */
-    public function verifyUserEmail(Request $request): Response
+    public function verifyUserEmail(User $user): Response
     {
-        $this->addFlash('success', 'Votre adresse email a bien été vérifiée.');
+        if ($user) {
+            $user->setIsVerified(true);
+            $user->setToken(null);
 
-        return $this->redirectToRoute('app_register');
+            $this->em->persist($user);
+            $this->em->flush();
+
+            $this->addFlash('success', 'Votre adresse email a bien été vérifiée.');
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        $this->addFlash('error', 'Une erreur est survenue. Veuillez réessayer.');
+
+        return $this->redirectToRoute('home');
     }
 }

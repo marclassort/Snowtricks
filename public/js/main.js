@@ -20,6 +20,7 @@ $(function () {
 
 /* Add another collection widget */
 jQuery(document).ready(function () {
+
 jQuery('.add-another-collection-widget').click(function (e) {
 
 var list = jQuery(jQuery(this).attr('data-list-selector'));
@@ -35,7 +36,6 @@ newElem.appendTo(list);
 });
 });
 
-
 const addFormToCollection = (e) => {
 const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
 
@@ -49,3 +49,4 @@ collectionHolder.dataset.index ++;
 };
 
 document.querySelectorAll('.add_item_link').forEach(btn => btn.addEventListener("click", addFormToCollection));
+

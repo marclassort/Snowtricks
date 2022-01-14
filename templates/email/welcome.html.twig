@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Snowtricks - Confirmation du compte</title>
+	</head>
+	<body>
+		<p>Bonjour
+			{{ user.username }},</p>
+		<p>Pour valider votre compte sur notre site communautaire Snowtricks, vous devez encore le valider en cliquant sur ce lien présent
+			<a href="https://localhost:8000/verification/{{ token }}">ici</a>.</p>
+		<p>Merci pour votre confiance</p>
+		<p>L'équipe Snowtrick</p>
+	</body>
+</html>

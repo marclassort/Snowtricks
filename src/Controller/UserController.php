@@ -4,14 +4,16 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
+use App\Services\Handlers\MediaHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UserController extends AbstractController
 {
@@ -23,12 +25,43 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user", name="user", methods={"GET"})
+     * @Route("/profil", name="profile", methods={"GET", "POST"})
      */
-    public function index(): Response
+    public function index(AuthenticationUtils $authenticationUtils, Request $request, SluggerInterface $slugger, UserRepository $userRepo): Response
     {
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findBy(array('username' => $lastUsername));
+
+        $form = $this->createForm(UserType::class, $user[0]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mediaHandler = new MediaHandler($slugger);
+
+            $imagePath = $this->getParameter('images_directory');
+
+            $mediaHandler->managePicture($request, $user[0], $form, $imagePath);
+
+            $user[0]->setFirstName($user[0]->getFirstName());
+            $user[0]->setLastName($user[0]->getLastName());
+
+            $this->em->persist($user[0]);
+            $this->em->flush();
+        }
+
+        $picture = $userRepo->findBy(array('username' => $lastUsername));
+
         return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
+            'controller_name' => 'LoginController',
+            'last_username' => $lastUsername,
+            'error'         => $error,
+            'form'          => $form->createView(),
+            'picture'       => $picture[0]->getPicture()
         ]);
     }
 
