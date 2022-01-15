@@ -1,0 +1,10 @@
+{% apply inky_to_html|inline_css(source('styles/style.css')) %}
+
+<p>Bonjour
+	{{ user.username }},</p>
+<p>Pour valider votre compte sur notre site communautaire Snowtricks, vous devez encore le valider en cliquant sur ce lien présent
+	<a href="https://localhost:8000/verification/{{ token }}">ici</a>.</p>
+<p>Merci pour votre confiance</p>
+<p>L'équipe Snowtrick</p>
+
+{% endapply %}
