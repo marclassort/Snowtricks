@@ -11,6 +11,7 @@ use App\Entity\Video;
 use App\Form\TrickType;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
+use App\Repository\VideoRepository;
 use App\Services\Handlers\MediaHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -184,13 +185,17 @@ class TrickController extends AbstractController
     /**
      * @Route("/figures/{slug}", name="figures_show", methods={"GET"})
      */
-    public function show(Trick $trick, ImageRepository $imageRepo): Response
+    public function show(Trick $trick, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
     {
-        $images = $imageRepo->findAll();
+        $images = $imageRepo->findByTrick($trick);
+        $videos = $videoRepo->findByTrick($trick);
+
+        $media = array_merge($images, $videos);
 
         return $this->render('figures/show.html.twig', [
             'trick' => $trick,
-            'images' => $images
+            'images' => $images,
+            'media' => $media
         ]);
     }
 

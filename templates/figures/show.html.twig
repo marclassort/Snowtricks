@@ -4,48 +4,133 @@
 	Voir une figure{{ parent() }}
 {% endblock %}
 
+
 {% block body %}
 	<section class="figures">
 		<div class="container figures-container">
 			<div class="row">
-				<div class="col-2"></div>
-				<div class="col-8">
-					<article class="mt-5">
-						{% if trick.images|length == 0 %}
-							<img src="{{ asset('/img/snowboard-home.jpeg') }}" alt="image principale" style="border-top-left-radius: 15px;border-top-right-radius: 15px;" width="850">
-						{% endif %}
-						{% for image in trick.images %}
-							{% if loop.first %}
-								<img src="{{ asset('/uploads/' ~ image.name) }}" alt="image principale" style="border-top-left-radius: 15px;border-top-right-radius: 15px;" width="850">
-							{% endif %}
-						{% endfor %}
-						<h2 class="mt-5">{{ trick.name }}</h2>
-						<div class="metadata">Rédigé le
-							{{ trick.createdAt | date('d/m/Y') }}
-							à
-							{{ trick.createdAt | date('h:m') }}
-							dans la catégorie
-							{{ trick.category }}
+				<div class="col-1"></div>
+				<div class="col-10">
+					<div class="container-fluid p-0 mt-5">
+						<section class="header">
+							<div class="background-image">
+								{% if app.user is not null %}
+									<div class="trick-edit-buttons">
+										<span class="fas fa-edit m-2 text-white"></span>
+										<span class="fas fa-trash-alt m-2 text-white"></span>
+									</div>
+								{% endif %}
+								<span class="accroche text-center">
+									<p class="accroche-paragraphe">{{ trick.name }}</p>
+								</span>
+							</div>
+						</section>
+					</div>
+					<div class="container-fluid p-0">
+						<section class="pt-5 pb-5">
+							<div class="container-fluid p-0">
+								<div class="row">
+									<div class="col-1 text-center">
+										<a class="btn btn-primary mb-3 mr-1" href="#carouselExampleIndicators2" role="button" data-slide="prev">
+											<i class="fa fa-arrow-left"></i>
+										</a>
+									</div>
+									<div class="col-10">
+										<div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
+											<div class="carousel-inner">
+												{% for media in media %}
+													{% if loop.first %}
+														<div class="carousel-item active">
+															<div class="row">
+															{% elseif loop.index % 3 == 0 %}
+																<div class="carousel-item">
+																	<div class="row">
+																	{% endif %}
+																	<div class="col-md-4 mb-3">
+																		<div class="card">
+																			{% if (media.name|split('.')|last == 'mp4') or (media.name|split('.')|last == 'webm') %}
+																				<video controls width="800" class="img-fluid" alt="vidéo d'une figure de snowboard">
+																					<source src="{{ asset('/uploads/' ~ media.name) }}" type="video/webm">
+																					<source src="{{ asset('/uploads/' ~ media.name) }}" type="video/mp4">
+																					<p>Désolé, votre navigateur ne supporte pas les vidéos. Voici
+																						<a href="{{ asset('/uploads/' ~ media.name) }}">un lien pour télécharger la vidéo</a>.
+																					</p>
+																				</video>
+																			{% else %}
+																				<img src="{{ asset('/uploads/' ~ media.name) }}" alt="image d'une figure de snowboard" class="img-fluid">
+																			{% endif %}
+																		</div>
+																	</div>
+																	{% if loop.index % 3 == 0 %}
+																	</div>
+																</div>
+															</div>
+														</div>
+													{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-1 text-center">
+								<a class="btn btn-primary mb-3 " href="#carouselExampleIndicators2" role="button" data-slide="next">
+									<i class="fa fa-arrow-right"></i>
+								</a>
+							</div>
 						</div>
-						<div class="content mt-3">
-							{{ trick.content | raw }}
-						</div>
-						<div class="text-center mt-5 mb-5">
-							<a href="{{ path('figures_edit', {slug: trick.slug}) }}" class="m-2">
-								<span class="fas fa-edit"></span>
-							</a>
-							<a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sûr de vouloir supprimer cette figure ?') && document.getElementById('js-trick-delete-form').submit();" class="m-2">
-								<span class="fas fa-trash-alt"></span>
-							</a>
-						</div>
-						<form id="js-trick-delete-form" action="{{ path('figures_delete', {slug: trick.slug}) }}" method="POST" class="d-none">
-							<input type="hidden" name="token" value="{{ csrf_token('trick_deletion_' ~ trick.id) }}">
-							<input type="hidden" name="_method" value="DELETE">
-						</form>
-					</article>
-				</div>
-				<div class="col-2"></div>
+					</div>
+				</section>
 			</div>
+
+			<article class="mt-5">
+				{% if trick.images|length == 0 %}
+					<img src="{{ asset('/img/snowboard-home.jpeg') }}" alt="image principale" style="border-top-left-radius: 15px;border-top-right-radius: 15px;" width="850">
+				{% endif %}
+				{% for image in trick.images %}
+					{% if loop.first %}
+						<img src="background-image: url('{{ asset('/uploads/' ~ image.name) }}')" alt="image principale" style="border-top-left-radius: 15px;border-top-right-radius: 15px;" width="850">
+					{% endif %}
+				{% endfor %}
+			</article>
+
+
+			<article class="mt-5">
+				{% if trick.images|length == 0 %}
+					<img src="{{ asset('/img/snowboard-home.jpeg') }}" alt="image principale" style="border-top-left-radius: 15px;border-top-right-radius: 15px;" width="850">
+				{% endif %}
+				{% for image in trick.images %}
+					{% if loop.first %}
+						<img src="{{ asset('/uploads/' ~ image.name) }}" alt="image principale" style="border-top-left-radius: 15px;border-top-right-radius: 15px;" width="850">
+					{% endif %}
+				{% endfor %}
+				<h2 class="mt-5">{{ trick.name }}</h2>
+				<div class="metadata">Rédigé le
+					{{ trick.createdAt | date('d/m/Y') }}
+					à
+					{{ trick.createdAt | date('h:m') }}
+					dans la catégorie
+					{{ trick.category }}
+				</div>
+				<div class="content mt-3">
+					{{ trick.content | raw }}
+				</div>
+				{% if app.user is not null %}
+					<div class="text-center mt-5 mb-5">
+						<a href="{{ path('figures_edit', {slug: trick.slug}) }}" class="m-2">
+							<span class="fas fa-edit"></span>
+						</a>
+						<a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sûr de vouloir supprimer cette figure ?') && document.getElementById('js-trick-delete-form').submit();" class="m-2">
+							<span class="fas fa-trash-alt"></span>
+						</a>
+					</div>
+				{% endif %}
+				<form id="js-trick-delete-form" action="{{ path('figures_delete', {slug: trick.slug}) }}" method="POST" class="d-none">
+					<input type="hidden" name="token" value="{{ csrf_token('trick_deletion_' ~ trick.id) }}">
+					<input type="hidden" name="_method" value="DELETE">
+				</form>
+			</article>
 		</div>
-	</section>
-{% endblock %}
+		<div class="col-1"></div>
+	</div>
+</div></section>{% endblock %}

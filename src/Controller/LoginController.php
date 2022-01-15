@@ -42,14 +42,14 @@ class LoginController extends AbstractController
 
         $user = $this->getDoctrine()
             ->getRepository(User::class)
-            ->findBy(array('username' => $username));
+            ->findOneByUsername($username);
 
         if ($username) {
-            $mailer->sendNewPassword($user[0]->getEmail(), $token, $user[0]);
+            $mailer->sendNewPassword($user->getEmail(), $token, $user);
 
-            $user[0]->setToken($token);
+            $user->setToken($token);
 
-            $entityManager->persist($user[0]);
+            $entityManager->persist($user);
             $entityManager->flush();
 
             $this->addFlash('success', 'Veuillez consulter votre boîte de réception pour créer un nouveau mot de passe.');

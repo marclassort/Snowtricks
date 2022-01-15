@@ -48,20 +48,22 @@
 										<div class="col-8">
 											<h6 class="p-2">{{ trick.name }}</h6>
 										</div>
-										<div class="col">
-											<a href="{{ path('figures_edit', {slug: trick.slug}) }}" class="text-white">
-												<span class="fas fa-edit m-2"></span>
-											</a>
-										</div>
-										<div class="col">
-											<a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sûr de vouloir supprimer cette figure ?') && document.getElementById('js-trick-delete-form').submit();">
-												<span class="fas fa-trash-alt m-2 text-white"></span>
-											</a>
-											<form id="js-trick-delete-form" action="{{ path('figures_delete', {slug: trick.slug}) }}" method="POST" class="d-none">
-												<input type="hidden" name="token" value="{{ csrf_token('trick_deletion_' ~ trick.id) }}">
-												<input type="hidden" name="_method" value="DELETE">
-											</form>
-										</div>
+										{% if app.user is not null %}
+											<div class="col">
+												<a href="{{ path('figures_edit', {slug: trick.slug}) }}" class="text-white">
+													<span class="fas fa-edit m-2"></span>
+												</a>
+											</div>
+											<div class="col">
+												<a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sûr de vouloir supprimer cette figure ?') && document.getElementById('js-trick-delete-form').submit();">
+													<span class="fas fa-trash-alt m-2 text-white"></span>
+												</a>
+												<form id="js-trick-delete-form" action="{{ path('figures_delete', {slug: trick.slug}) }}" method="POST" class="d-none">
+													<input type="hidden" name="token" value="{{ csrf_token('trick_deletion_' ~ trick.id) }}">
+													<input type="hidden" name="_method" value="DELETE">
+												</form>
+											</div>
+										{% endif %}
 									</div>
 								</div>
 							</article>
