@@ -45,7 +45,7 @@ class UserController extends AbstractController
 
             $imagePath = $this->getParameter('images_directory');
 
-            $mediaHandler->managePicture($request, $user, $form, $imagePath);
+            $mediaHandler->managePicture($request, $user, $imagePath);
 
             $user->setFirstName($user->getFirstName());
             $user->setLastName($user->getLastName());

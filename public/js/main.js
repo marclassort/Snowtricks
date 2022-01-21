@@ -50,3 +50,30 @@ collectionHolder.dataset.index ++;
 
 document.querySelectorAll('.add_item_link').forEach(btn => btn.addEventListener("click", addFormToCollection));
 
+/* Load more button */
+$( document ).ready(function () {
+  $(".moreBox").slice(0, 3).show();
+    if ($(".blogBox:hidden").length != 0) {
+      $("#loadMore").show();
+    }   
+    $("#loadMore").on('click', function (e) {
+      e.preventDefault();
+      $(".moreBox:hidden").slice(0, 6).slideDown();
+      $(".moreBox").removeClass("d-none");
+      $(".moreBox").css('display', 'flex');
+      $(".moreBox").css('margin-bottom', '30px');
+      if ($(".moreBox:hidden").length == 0) {
+        $("#loadMore").fadeOut('slow');
+      }
+    });
+  });
+
+/* Load media */
+$(document).ready(function () {
+  $("#loadMedia").on('click', function (e) {
+    e.preventDefault();
+    $(".carousel-display").css("display", "flex");
+    $("#loadMedia").addClass("d-none");
+    $("#loadMedia").css("display", "none !important");
+  });
+});

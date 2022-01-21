@@ -82,7 +82,7 @@ class LoginController extends AbstractController
 
             $this->addFlash('success', 'Vous avez bien changé votre mot de passe.');
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('home');
         } else if ($user) {
             return $this->render('login/password_reset.html.twig', [
                 'token' => $token,

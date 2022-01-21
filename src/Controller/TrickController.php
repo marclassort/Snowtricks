@@ -2,20 +2,25 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Image;
+use App\Entity\Trick;
+use App\Entity\Video;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Trick;
-use App\Entity\Video;
+use App\Form\CommentType;
 use App\Form\TrickType;
+use App\Repository\CommentRepository;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
+use App\Repository\UserRepository;
 use App\Repository\VideoRepository;
 use App\Services\Handlers\MediaHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -58,13 +63,13 @@ class TrickController extends AbstractController
             $imagePath = $this->getParameter('images_directory');
             $videoPath = $this->getParameter('videos_directory');
 
-            $mediaHandler->deleteImages($request);
             $mediaHandler->manageImages($request, $trick, $form, $imagePath);
             $mediaHandler->manageVideos($request, $trick, $form, $videoPath);
 
             $slugger = new AsciiSlugger();
             $slug = $slugger->slug($trick->getName());
             $trick->setSlug($slug);
+            $trick->setAuthor($this->getUser());
 
             $this->em->persist($trick);
             $this->em->flush();
@@ -83,7 +88,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/figures/{slug}/editer", name="figures_edit", methods={"GET", "POST"})
      */
-    public function edit(Trick $trick, Request $request, ImageRepository $imageRepo, SluggerInterface $slugger): Response
+    public function edit(Trick $trick, Request $request, ImageRepository $imageRepo, VideoRepository $videoRepo, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(TrickType::class, $trick);
 
@@ -95,7 +100,6 @@ class TrickController extends AbstractController
             $imagePath = $this->getParameter('images_directory');
             $videoPath = $this->getParameter('videos_directory');
 
-            $mediaHandler->deleteImages($request);
             $mediaHandler->manageImages($request, $trick, $form, $imagePath);
             $mediaHandler->manageVideos($request, $trick, $form, $videoPath);
 
@@ -110,12 +114,16 @@ class TrickController extends AbstractController
             ));
         }
 
-        $images = $imageRepo->findBy([]);
+        $images = $imageRepo->findByTrick($trick);
+        $videos = $videoRepo->findByTrick($trick);
+
+        $media = array_merge($images, $videos);
 
         return $this->render('figures/edit.html.twig', [
             'trick' => $trick,
             'form' => $form->createView(),
-            'images' => $images
+            'images' => $images,
+            'media' => $media
         ]);
     }
 
@@ -128,7 +136,11 @@ class TrickController extends AbstractController
         $trick = $request->request->get('trick');
 
         if ($this->isCsrfTokenValid('delete-item', $token)) {
-            unlink($this->getParameter('images_directory') . '/' . $image->getName());
+            $imageLink = $this->getParameter('images_directory') . '/' . $image->getName();
+
+            if (is_writable($imageLink)) {
+                unlink($this->getParameter('images_directory') . '/' . $image->getName());
+            }
 
             $this->em->remove($image);
             $this->em->flush();
@@ -152,7 +164,11 @@ class TrickController extends AbstractController
         $trick = $request->request->get('trick');
 
         if ($this->isCsrfTokenValid('delete-item', $token)) {
-            unlink($this->getParameter('videos_directory') . '/' . $video->getName());
+            $videoLink = $this->getParameter('videos_directory') . '/' . $video->getName();
+
+            if (is_writable($videoLink)) {
+                unlink($videoLink);
+            }
 
             $this->em->remove($video);
             $this->em->flush();
@@ -183,19 +199,48 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/figures/{slug}", name="figures_show", methods={"GET"})
+     * @Route("/figures/{slug}", name="figures_show", methods={"GET", "POST"})
      */
-    public function show(Trick $trick, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
+    public function show(Trick $trick, Request $request, ImageRepository $imageRepo, VideoRepository $videoRepo, CommentRepository $commentRepo, UserRepository $userRepo, AuthenticationUtils $authenticationUtils): Response
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
         $images = $imageRepo->findByTrick($trick);
         $videos = $videoRepo->findByTrick($trick);
 
+        $lastUsername = $authenticationUtils->getLastUsername();
+        $user = $userRepo->findOneByUsername($lastUsername);
+
         $media = array_merge($images, $videos);
+
+        $comments = $commentRepo->findByTrick($trick);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commentForm = $request->request->get('comment');
+
+            $comment->setContent($commentForm['content']);
+            $comment->setCreatedAt(new \DateTime);
+            $comment->setUser($user);
+
+            $trick->addComment($comment);
+
+            $this->em->persist($comment);
+            $this->em->flush();
+
+            return $this->redirectToRoute('figures_show', array(
+                "slug" => $trick->getSlug()
+            ));
+        }
 
         return $this->render('figures/show.html.twig', [
             'trick' => $trick,
+            'user' => $user,
             'images' => $images,
-            'media' => $media
+            'media' => $media,
+            'comments' => $comments,
+            'form' => $form->createView()
         ]);
     }
 

@@ -34,7 +34,6 @@ class TrickType extends AbstractType
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu'
             ])
-            ->add('author')
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
                 'entry_options' => [
@@ -54,7 +53,7 @@ class TrickType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Sauvegarder',
                 'attr' => [
-                    'class' => 'btn btn-danger col-12 mt-2 mb-5'
+                    'class' => 'btn btn-primary'
                 ]
             ]);
     }

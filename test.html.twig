@@ -1,64 +1,216 @@
-<div class="carousel-item">
-	<div class="row">
-		<div class="col-md-4 mb-3">
-			<div class="card">
-				<img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532771098148-525cefe10c23?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=3f317c1f7a16116dec454fbc267dd8e4">
-				<div class="card-body">
-					<h4 class="card-title">Special title treatment</h4>
-					<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4 mb-3">
-			<div class="card">
-				<img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532715088550-62f09305f765?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=ebadb044b374504ef8e81bdec4d0e840">
-				<div class="card-body">
-					<h4 class="card-title">Special title treatment</h4>
-					<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4 mb-3">
-			<div class="card">
-				<img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=0754ab085804ae8a3b562548e6b4aa2e">
-				<div class="card-body">
-					<h4 class="card-title">Special title treatment</h4>
-					<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+Edit trick
 
-				</div>
+<div class="row mt-5">
+	<div class="col-md-6 mx-auto">
+		<div class="container">
+			<h1>Éditer la figure
+				{{ trick.name }}</h1>
+			<div class="mt-5">
+				{{ include('figures/_form.html.twig')}}
 			</div>
 		</div>
 	</div>
 </div>
-<div class="carousel-item">
-	<div class="row">
 
-		<div class="col-md-4 mb-3">
-			<div class="card">
-				<img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=ee8417f0ea2a50d53a12665820b54e23">
-				<div class="card-body">
-					<h4 class="card-title">Special title treatment</h4>
-					<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+{% if app.user is not null %}
+	{{ form_start(form) }}
+	<div class="container text-center mb-5">
+		<div class="row">
+			<div class="col-2"></div>
+			<div class="col">
+				<div class="mt-5">
+					{{ form_row(form.content) }}
+				</div>
+				<div class="mt-5">
+					<input type="submit" value="Laisser un commentaire" class="btn btn-primary">
+				</div>
+			</div>
+			<div class="col-2"></div>
+		</div>
+	</div>
+	{{ form_end(form) }}
+	<hr>
+{% endif %}
+
+
+Load more
+
+
+<div class="interior container clearfix">
+	<div class="row">
+		<div class="col-xs-12 col-sm-6 col-md-12 blogBox">
+			<div class="item featured">
+				<img src="https://www.solodev.com/assets/fancy/travel3.jpg">
+				<div class="blogTxt">
+					<div class="blogCategory">
+						<a href="/">Business Intelligence</a>
+					</div>
+					<h2>Eu qui dolore altera, saepe molestie accusamus</h2>
+					<p class="post_intro hidden-xs">An erant partem albucius quo, ad graece latine atomorum sea, sit dicant laoreet at. Id has chor...</p>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4 mb-3">
-			<div class="card">
-				<img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532777946373-b6783242f211?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=8ac55cf3a68785643998730839663129">
-				<div class="card-body">
-					<h4 class="card-title">Special title treatment</h4>
-					<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+		<div class="col-xs-12 col-sm-6 col-md-4 blogBox moreBox">
+			<div class="item">
+				<img src="https://www.solodev.com/assets/fancy/travel5.jpg">
+				<div class="blogTxt">
+					<div class="blogCategory">
+						<a href="/">Virtual Reality</a>
+					</div>
+					<h2>Ea delicata deterru isset concluda turque</h2>
+					<p class="post_intro hidden-xs">Mel ut enim atqui, ne eum tation populo delectus. Vim soluta insolens phaedrum et, lucilius par...</p>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4 mb-3">
-			<div class="card">
-				<img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532763303805-529d595877c5?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=5ee4fd5d19b40f93eadb21871757eda6">
-				<div class="card-body">
-					<h4 class="card-title">Special title treatment</h4>
-					<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+		<div class="col-xs-12 col-sm-6 col-md-4 blogBox moreBox">
+			<div class="item">
+				<img src="https://www.solodev.com/assets/fancy/travel6.jpg">
+				<div class="blogTxt">
+					<div class="blogCategory">
+						<a href="/">Internet of Things (IoT)</a>
+					</div>
+					<h2>No vim quis quodsi, etiam quaestio euripidis</h2>
+					<p class="post_intro hidden-xs">Sed possim nonumes no, iuvaret similique quo no. Ut sea idque option aliquando. Ei mea choro ap...</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 blogBox moreBox">
+			<div class="item">
+				<img src="https://www.solodev.com/assets/fancy/travel9.jpg">
+				<div class="blogTxt">
+					<div class="blogCategory">
+						<a href="/">Artifical Intelligence</a>
+					</div>
+					<h2>Qui an alii magna consectetuer</h2>
+					<p class="post_intro hidden-xs">Ad populo appareat vulputate vix, ex fastidii signiferumque pro. In sea doming reprehendunt. Na...</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 blogBox moreBox" style="display: none;">
+			<div class="item">
+				<img src="https://www.solodev.com/assets/fancy/travel7.jpg">
+				<div class="blogTxt">
+					<div class="blogCategory">
+						<a href="/">Big Data</a>
+					</div>
+					<h2>Integre voluptatum cu quo iriure docendi senserit</h2>
+					<p class="post_intro hidden-xs">Delicata inciderint at per, eu partem principes eum, illud nobis appetere ex his. Ei vix melior...</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 blogBox moreBox" style="display: none;">
+			<div class="item">
+				<img src="https://www.solodev.com/assets/fancy/travel8.jpg">
+				<div class="blogTxt">
+					<div class="blogCategory">
+						<a href="/">Growth Hacking</a>
+					</div>
+					<h2>Pro brute causae aliquip ad</h2>
+					<p class="post_intro hidden-xs">No ipsum invidunt eos, ei ius dicit platonem perpetua. Mea te feugait ocurreret aliquando, ei i...</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 blogBox moreBox" style="display: none;">
+			<div class="item">
+				<img src="https://www.solodev.com/assets/fancy/travel2.jpg">
+				<div class="blogTxt">
+					<div class="blogCategory">
+						<a href="/">Content Marketing</a>
+					</div>
+					<h2>Lorem ipsum dolor sit amet, consect adipiscing elit</h2>
+					<p class="post_intro hidden-xs">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi...</p>
+				</div>
+			</div>
+		</div>
+		<div id="loadMore" style="">
+			<a href="#">Load More</a>
+		</div>
+	</div>
+</div>
+
+
+<article class="mt-5">
+	{% if trick.images|length == 0 %}{% endif %}
+	{% for image in trick.images %}
+		{% if loop.first %}
+			<img src="background-image: url('{{ asset('/uploads/' ~ image.name) }}')" alt="image principale" style="border-top-left-radius: 15px;border-top-right-radius: 15px;" width="850">
+		{% endif %}
+	{% endfor %}
+</article>
+
+
+<article class="mt-5">
+	{% if trick.images|length == 0 %}
+		<img src="{{ asset('/img/snowboard-home.jpeg') }}" alt="image principale" style="border-top-left-radius: 15px;border-top-right-radius: 15px;" width="850">
+	{% endif %}
+	{% for image in trick.images %}
+		{% if loop.first %}
+			<img src="{{ asset('/uploads/' ~ image.name) }}" alt="image principale" style="border-top-left-radius: 15px;border-top-right-radius: 15px;" width="850">
+		{% endif %}
+	{% endfor %}
+
+
+	<div class="carousel-item">
+		<div class="row">
+			<div class="col-md-4 mb-3">
+				<div class="card">
+					<img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532771098148-525cefe10c23?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=3f317c1f7a16116dec454fbc267dd8e4">
+					<div class="card-body">
+						<h4 class="card-title">Special title treatment</h4>
+						<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-3">
+				<div class="card">
+					<img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532715088550-62f09305f765?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=ebadb044b374504ef8e81bdec4d0e840">
+					<div class="card-body">
+						<h4 class="card-title">Special title treatment</h4>
+						<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-3">
+				<div class="card">
+					<img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=0754ab085804ae8a3b562548e6b4aa2e">
+					<div class="card-body">
+						<h4 class="card-title">Special title treatment</h4>
+						<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+	<div class="carousel-item">
+		<div class="row">
+
+			<div class="col-md-4 mb-3">
+				<div class="card">
+					<img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=ee8417f0ea2a50d53a12665820b54e23">
+					<div class="card-body">
+						<h4 class="card-title">Special title treatment</h4>
+						<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-3">
+				<div class="card">
+					<img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532777946373-b6783242f211?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=8ac55cf3a68785643998730839663129">
+					<div class="card-body">
+						<h4 class="card-title">Special title treatment</h4>
+						<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-3">
+				<div class="card">
+					<img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532763303805-529d595877c5?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=5ee4fd5d19b40f93eadb21871757eda6">
+					<div class="card-body">
+						<h4 class="card-title">Special title treatment</h4>
+						<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

@@ -49,12 +49,12 @@
 											<h6 class="p-2">{{ trick.name }}</h6>
 										</div>
 										{% if app.user is not null %}
-											<div class="col">
+											<div class="col-2">
 												<a href="{{ path('figures_edit', {slug: trick.slug}) }}" class="text-white">
 													<span class="fas fa-edit m-2"></span>
 												</a>
 											</div>
-											<div class="col">
+											<div class="col-2">
 												<a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sûr de vouloir supprimer cette figure ?') && document.getElementById('js-trick-delete-form').submit();">
 													<span class="fas fa-trash-alt m-2 text-white"></span>
 												</a>
@@ -79,6 +79,17 @@
 				</a>
 			</div>
 		</div>
+		<div class="container-fluid text-right tricks-up">
+			<div class="row no-gutters p-0">
+				<div class="col-11"></div>
+				<div class="col-1 p-0">
+					<a href="#tricks">
+						<i class="fas fa-chevron-up fa-4x tricks-arrow-up w-100"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+
 	</span>
 
 {% endblock %}
