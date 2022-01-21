@@ -24,18 +24,21 @@ class MediaHandler extends AbstractController
         }
 
         if (isset($images)) {
-            $newImageName = $this->addImages($images, $trick, $imagePath);
+            $arrayNames = $this->addImages($images, $trick, $imagePath);
 
             $newImages = $form->get('images')->getData();
 
-            foreach ($newImages as $newImage) {
-                $newImage->setName($newImageName);
-                $newImage->setTrick($trick);
+            if ($arrayNames != []) {
+                foreach ($newImages as $key => $newImage) {
+
+                    $newImage->setName($arrayNames[$key - 1]);
+                    $newImage->setTrick($trick);
+                }
             }
         }
     }
 
-    public function managePicture($request, $user, $form, $imagePath)
+    public function managePicture($request, $user, $imagePath)
     {
         /** @var UploadedFile $images */
         if (isset($request->files->all()['user']['picture'])) {
@@ -56,28 +59,35 @@ class MediaHandler extends AbstractController
             $videos = $request->files->all()['trick']['videos'];
         }
 
-        if (isset($videos) && ($videos[0]['name'] != NULL)) {
-            $newVideoName = $this->addVideos($videos, $trick, $videoPath);
+        if (isset($videos)) {
+            $arrayNames = $this->addVideos($videos, $trick, $videoPath);
 
             $newVideos = $form->get('videos')->getData();
 
-            foreach ($newVideos as $newVideo) {
-                $newVideo->setName($newVideoName);
-                $newVideo->setTrick($trick);
+            if ($arrayNames != []) {
+                foreach ($newVideos as $key => $newVideo) {
+                    $newVideo->setName($arrayNames[$key - 1]);
+                    $newVideo->setTrick($trick);
+                }
             }
         }
     }
 
     public function addImages($images, Trick $trick, $imagePath)
     {
+        $arrayOfImageNames = [];
+
         foreach ($images as $key => $image) {
-            $newImage = $this->uploadImage($image['name'], $imagePath);
-            $img = $trick->getImages()->toArray()[$key]->setName($newImage);
-            $img->setTrick($trick);
-            $trick->addImage($img);
+            if ($image['name'] != null) {
+                $newImage = $this->uploadImage($image['name'], $imagePath);
+                array_push($arrayOfImageNames, $newImage);
+                $img = $trick->getImages()->toArray()[$key]->setName($newImage);
+                $img->setTrick($trick);
+                $trick->addImage($img);
+            }
         }
 
-        return $newImage;
+        return $arrayOfImageNames;
     }
 
     public function addPicture($picture, User $user, $imagePath)
@@ -90,14 +100,19 @@ class MediaHandler extends AbstractController
 
     public function addVideos($videos, Trick $trick, $videoPath)
     {
+        $arrayOfVideoNames = [];
+
         foreach ($videos as $key => $video) {
-            $newVideo = $this->uploadVideo($video['name'], $videoPath);
-            $video = $trick->getVideos()->toArray()[$key]->setName($newVideo);
-            $video->setTrick($trick);
-            $trick->addVideo($video);
+            if ($video['name'] != null) {
+                $newVideo = $this->uploadVideo($video['name'], $videoPath);
+                array_push($arrayOfVideoNames, $newVideo);
+                $video = $trick->getVideos()->toArray()[$key]->setName($newVideo);
+                $video->setTrick($trick);
+                $trick->addVideo($video);
+            }
         }
 
-        return $newVideo;
+        return $arrayOfVideoNames;
     }
 
     public function uploadImage(UploadedFile $file, $imagePath)
@@ -134,13 +149,5 @@ class MediaHandler extends AbstractController
         }
 
         return $newFilename;
-    }
-
-    public function deleteImages($request)
-    {
-        $images = $request->files->all()['trick']['images'];
-
-        foreach ($images as $image) {
-        }
     }
 }

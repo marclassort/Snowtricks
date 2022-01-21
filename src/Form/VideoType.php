@@ -15,7 +15,7 @@ class VideoType extends AbstractType
     {
         $builder
             ->add('name', FileType::class, [
-                'label' => 'Choisir la vidéo',
+                'label' => false,
                 'required' => false,
                 'mapped' => false,
                 'constraints' => [

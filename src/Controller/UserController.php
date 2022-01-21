@@ -34,9 +34,9 @@ class UserController extends AbstractController
 
         $user = $this->getDoctrine()
             ->getRepository(User::class)
-            ->findBy(array('username' => $lastUsername));
+            ->findOneBy(array('username' => $lastUsername));
 
-        $form = $this->createForm(UserType::class, $user[0]);
+        $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
@@ -45,23 +45,23 @@ class UserController extends AbstractController
 
             $imagePath = $this->getParameter('images_directory');
 
-            $mediaHandler->managePicture($request, $user[0], $form, $imagePath);
+            $mediaHandler->managePicture($request, $user, $imagePath);
 
-            $user[0]->setFirstName($user[0]->getFirstName());
-            $user[0]->setLastName($user[0]->getLastName());
+            $user->setFirstName($user->getFirstName());
+            $user->setLastName($user->getLastName());
 
-            $this->em->persist($user[0]);
+            $this->em->persist($user);
             $this->em->flush();
         }
 
-        $picture = $userRepo->findBy(array('username' => $lastUsername));
+        $picture = $userRepo->findOneBy(array('username' => $lastUsername));
 
         return $this->render('user/index.html.twig', [
             'controller_name' => 'LoginController',
             'last_username' => $lastUsername,
             'error'         => $error,
             'form'          => $form->createView(),
-            'picture'       => $picture[0]->getPicture()
+            'picture'       => $picture->getPicture()
         ]);
     }
 

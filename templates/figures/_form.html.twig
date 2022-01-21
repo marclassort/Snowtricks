@@ -3,38 +3,23 @@
 {{ form_row(form.description) }}
 {{ form_row(form.category) }}
 {{ form_row(form.content) }}
-<div class="mb-3">
-	{{ form_label(form.author, null, {
-        'label': 'Auteur',
-        'label_attr': {'class': 'foo'}
-    }) }}
-	{{ form_errors(form.author) }}
-	{{ form_widget(form.author) }}
-	{{ form_help(form.author) }}
-</div>
 
 <h3 class="mt-5">Rajouter une ou plusieurs images</h3>
 
-<ul id="image-fields-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.images|length }}">
-	{% for image in form.images %}
-		<li>
-			{{ form_row(image) }}
-		</li>
-	{% endfor %}
-
+<ul id="image-fields-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}" data-widget-tags="{{ '<div></div>'|e }}" data-widget-counter="{{ form.images|length }}" class="p-0">
+	<div>
+		{{ form_row(form.images, {'label': false}) }}
+	</div>
 </ul>
 
 <button type="button" class="add-another-collection-widget btn btn-primary mt-2 mb-2" data-list-selector="#image-fields-list">Ajouter une autre image</button>
 
 <h3 class="mt-5">Rajouter une ou plusieurs vidéos</h3>
 
-<ul id="video-fields-list" data-prototype="{{ form_widget(form.videos.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.videos|length }}">
-
-	{% for video in form.videos %}
-		<li>
-			{{ form_row(video) }}
-		</li>
-	{% endfor %}
+<ul id="video-fields-list" data-prototype="{{ form_widget(form.videos.vars.prototype)|e }}" data-widget-tags="{{ '<div></div>'|e }}" data-widget-counter="{{ form.videos|length }}" class="p-0">
+	<div>
+		{{ form_row(form.videos, {'label': false}) }}
+	</div>
 </ul>
 
 <button type="button" class="add-another-collection-widget btn btn-primary mt-2 mb-2" data-list-selector="#video-fields-list">Ajouter une autre vidéo</button>
