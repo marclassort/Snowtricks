@@ -30,9 +30,10 @@ class MediaHandler extends AbstractController
 
             if ($arrayNames != []) {
                 foreach ($newImages as $key => $newImage) {
-
-                    $newImage->setName($arrayNames[$key - 1]);
-                    $newImage->setTrick($trick);
+                    if ($key != null) {
+                        $newImage->setName($arrayNames[$key]);
+                        $newImage->setTrick($trick);
+                    }
                 }
             }
         }

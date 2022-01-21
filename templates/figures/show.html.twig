@@ -155,6 +155,16 @@
 					<hr>
 				{% endif %}
 				<div class="container mt-5 mb-5 interior clearfix">
+					{% if app.user is null %}
+						<div class="text-center mb-5">
+							<a href="{{ path('app_login') }}" class="m-2">
+								<button class="btn btn-primary">Me connecter</button>
+							</a>
+							<a href="{{ path('app_register') }}" class="m-2">
+								<button class="btn btn-primary">M'inscrire</button>
+							</a>
+						</div>
+					{% endif %}
 					{% if comments is defined %}
 						{% for key, comment in comments %}
 							<div class="row mt-3 {% if loop.first %}blogBlox {% else %}moreBox{% endif %} {% if loop.index > 3 %} d-none {% endif %}">
