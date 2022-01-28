@@ -64,6 +64,8 @@
 																							<a href="{{ asset('/uploads/' ~ media.name) }}">un lien pour télécharger la vidéo</a>.
 																						</p>
 																					</video>
+																				{% elseif (media.name|slice(0, 4) == "http") %}
+																					<iframe src="{{ media.name }}" frameborder="0"></iframe>
 																				{% else %}
 																					<img src="{{ asset('/uploads/' ~ media.name) }}" alt="image d'une figure de snowboard" class="img-fluid">
 																				{% endif %}

@@ -4,6 +4,27 @@
   font-family: "Josefin Sans", Arial, Helvetica, sans-serif;
 }
 
+a {
+  text-decoration: none !important;
+}
+
+fieldset .col-form-label {
+  display: none;
+}
+
+#trick_images {
+  display: none;
+}
+
+#trick_videos {
+  display: none;
+}
+
+.img-fluid {
+  height: 150px !important;
+  object-fit: cover;
+}
+
 .alert {
   padding: 10px;
   color: white;

@@ -4,6 +4,7 @@ namespace App\Services\Handlers;
 
 use App\Entity\Trick;
 use App\Entity\User;
+use App\Entity\Video;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -29,11 +30,13 @@ class MediaHandler extends AbstractController
             $newImages = $form->get('images')->getData();
 
             if ($arrayNames != []) {
-                foreach ($newImages as $key => $newImage) {
-                    if ($key != null) {
-                        $newImage->setName($arrayNames[$key]);
-                        $newImage->setTrick($trick);
-                    }
+                $key = 0;
+
+                foreach ($newImages as $newImage) {
+                    $newImage->setName($arrayNames[$key]);
+                    $newImage->setTrick($trick);
+
+                    $key++;
                 }
             }
         }
@@ -53,25 +56,25 @@ class MediaHandler extends AbstractController
         }
     }
 
-    public function manageVideos($request, $trick, $form, $videoPath)
+    public function manageVideos($request, $trick)
     {
-        /** @var UploadedFile $videos */
-        if (isset($request->files->all()['trick']['videos'])) {
-            $videos = $request->files->all()['trick']['videos'];
-        }
+        $videosArray = [];
 
-        if (isset($videos)) {
-            $arrayNames = $this->addVideos($videos, $trick, $videoPath);
+        if (isset($request->request->all()['trick']['videos'])) {
+            $videos = $request->request->all()['trick']['videos'];
 
-            $newVideos = $form->get('videos')->getData();
-
-            if ($arrayNames != []) {
-                foreach ($newVideos as $key => $newVideo) {
-                    $newVideo->setName($arrayNames[$key - 1]);
-                    $newVideo->setTrick($trick);
-                }
+            foreach ($videos as $video) {
+                if ($video['name'] != "") {
+                    $videoName = $video['name'];
+                    $video = new Video();
+                    $video->setName($videoName);
+                    $video->setTrick($trick);
+                    array_push($videosArray, $video);
+                };
             }
         }
+
+        return $videosArray;
     }
 
     public function addImages($images, Trick $trick, $imagePath)
@@ -99,22 +102,7 @@ class MediaHandler extends AbstractController
         return $newPicture;
     }
 
-    public function addVideos($videos, Trick $trick, $videoPath)
-    {
-        $arrayOfVideoNames = [];
 
-        foreach ($videos as $key => $video) {
-            if ($video['name'] != null) {
-                $newVideo = $this->uploadVideo($video['name'], $videoPath);
-                array_push($arrayOfVideoNames, $newVideo);
-                $video = $trick->getVideos()->toArray()[$key]->setName($newVideo);
-                $video->setTrick($trick);
-                $trick->addVideo($video);
-            }
-        }
-
-        return $arrayOfVideoNames;
-    }
 
     public function uploadImage(UploadedFile $file, $imagePath)
     {
@@ -125,24 +113,6 @@ class MediaHandler extends AbstractController
         try {
             $file->move(
                 $imagePath,
-                $newFilename
-            );
-        } catch (FileException $e) {
-            throw $e;
-        }
-
-        return $newFilename;
-    }
-
-    public function uploadVideo(UploadedFile $file, $videoPath)
-    {
-        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $this->slugger->slug($originalFilename);
-        $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
-
-        try {
-            $file->move(
-                $videoPath,
                 $newFilename
             );
         } catch (FileException $e) {

@@ -1,3 +1,69 @@
+Vidéos 
+
+public function manageVideos($request, $trick, $form, $videoPath)
+{
+	/** @var UploadedFile $videos */
+	if (isset($request->files->all()['trick']['videos'])) {
+		$videos = $request->files->all()['trick']['videos'];
+	}
+
+	if (isset($videos)) {
+		$arrayNames = $this->addVideos($videos, $trick, $videoPath);
+
+		$newVideos = $form->get('videos')->getData();
+
+		if ($arrayNames != []) {
+			foreach ($newVideos as $key => $newVideo) {
+				$newVideo->setName($arrayNames[$key - 1]);
+				$newVideo->setTrick($trick);
+			}
+		}
+	}
+}
+
+public function addVideos($videos, Trick $trick, $videoPath)
+{
+	$arrayOfVideoNames = [];
+
+	foreach ($videos as $key => $video) {
+		if ($video['name'] != null) {
+			$newVideo = $this->uploadVideo($video['name'], $videoPath);
+			array_push($arrayOfVideoNames, $newVideo);
+			$video = $trick->getVideos()->toArray()[$key]->setName($newVideo);
+			$video->setTrick($trick);
+			$trick->addVideo($video);
+		}
+	}
+
+	return $arrayOfVideoNames;
+}
+
+public function uploadVideo(UploadedFile $file, $videoPath)
+{
+	$originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+	$safeFilename = $this->slugger->slug($originalFilename);
+	$newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+
+	try {
+		$file->move(
+			$videoPath,
+			$newFilename
+		);
+	} catch (FileException $e) {
+		throw $e;
+	}
+
+	return $newFilename;
+}
+
+
+<div class="mb-3">
+	<div class="form-check"><input type="checkbox" id="registration_form_agreeTerms" name="registration_form[agreeTerms]" required="required" class="form-check-input" value="1">
+		<label class="form-check-label required" for="registration_form_agreeTerms">J'accepte les termes</label>
+	</div>
+</div>
+
+
 Edit trick
 
 <div class="row mt-5">

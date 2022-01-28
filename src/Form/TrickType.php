@@ -26,9 +26,13 @@ class TrickType extends AbstractType
             ->add('category', ChoiceType::class, [
                 'label' => 'Catégorie',
                 'choices' => [
-                    'Catégorie 1' => 'Catégorie 1',
-                    'Catégorie 2' => 'Catégorie 2',
-                    'Catégorie 3' => 'Catégorie 3'
+                    'Grabs' => 'Grabs',
+                    'Rotations' => 'Rotations',
+                    'Flips' => 'Flips',
+                    'Rotation désaxées' => 'Rotation désaxées',
+                    'Slides' => 'Slides',
+                    'One foot tricks' => 'One foot tricks',
+                    'Old school' => 'Old school'
                 ]
             ])
             ->add('content', TextareaType::class, [
