@@ -25,20 +25,7 @@ class MediaHandler extends AbstractController
         }
 
         if (isset($images)) {
-            $arrayNames = $this->addImages($images, $trick, $imagePath);
-
-            $newImages = $form->get('images')->getData();
-
-            if ($arrayNames != []) {
-                $key = 0;
-
-                foreach ($newImages as $newImage) {
-                    $newImage->setName($arrayNames[$key]);
-                    $newImage->setTrick($trick);
-
-                    $key++;
-                }
-            }
+            $this->addImages($images, $trick, $imagePath);
         }
     }
 

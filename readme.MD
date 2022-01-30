@@ -1,7 +1,7 @@
 # **Snowtricks - Marc Lassort**
 
-This blog is the 6th project of the OpenClassrooms PHP/Symfony Web Developer training.  
-It is a community website project which has developed with Symfony.
+This website is the 6th project of the OpenClassrooms PHP/Symfony Web Developer training.  
+It is a community website project about snowboard tricks which has been developed with Symfony.
 
 # **How to install the website**
 
