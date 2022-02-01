@@ -3,6 +3,10 @@
 {% block title %}
 	Éditer une figure{{ parent() }}
 {% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="/css/edit-style.css">
+{% endblock %}
 
 {% block body %}
 
@@ -64,11 +68,13 @@
 																							<a href="{{ asset('/uploads/' ~ media.name) }}">un lien pour télécharger la vidéo</a>.
 																						</p>
 																					</video>
+																				{% elseif (media.name|slice(0, 4) == "http") %}
+																					<iframe width="800" class="img-fluid" src="{{ media.name }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 																				{% else %}
 																					<img src="{{ asset('/uploads/' ~ media.name) }}" alt="image d'une figure de snowboard" class="img-fluid">
 																				{% endif %}
 																			</div>
-																			{% if (media.name|split('.')|last == 'mp4') or (media.name|split('.')|last == 'webm') %}
+																			{% if (media.name|split('.')|last == 'mp4') or (media.name|split('.')|last == 'webm') or (media.name|slice(0, 4) == "http") %}
 																				<div class="bg-primary text-center">
 																					<a href="{{ path('figures_edit', {slug: trick.slug}) }}" class="m-2">
 																						<span class="fas fa-edit m-2 text-white position-relative"></span>
@@ -129,19 +135,15 @@
 									{{ form_row(form.category, {'label': false}) }}
 
 									<h3 class="mt-5">Rajouter une ou plusieurs images</h3>
-									<ul id="image-fields-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}" data-widget-tags="{{ '<div class="mt-4"></div>'|e }}" data-widget-counter="{{ form.images|length }}" class="p-0 mt-3">
-										<div class="mt-2">
-											{{ form_widget(form.images, {'label': false}) }}
+									<ul id="image-fields-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}" data-widget-tags="{{ '<div class="m-0"></div>'|e }}" data-widget-counter="{{ form.images|length }}" class="p-0 mt-3">
+										<div>
+											{{ form_row(form.images, {'label': false}) }}
 										</div>
 									</ul>
 									<button type="button" class="add-another-collection-widget btn btn-primary mt-2 mb-2" data-list-selector="#image-fields-list">Ajouter une autre image</button>
 
 									<h3 class="mt-5">Rajouter une ou plusieurs vidéos</h3>
-									<ul id="video-fields-list" data-prototype="{{ form_widget(form.videos.vars.prototype)|e }}" data-widget-tags="{{ '<div class="mt-4"></div>'|e }}" data-widget-counter="{{ form.videos|length }}" class="p-0">
-										<div class="mt-2">
-											{{ form_row(form.videos, {'label': false}) }}
-										</div>
-									</ul>
+									<ul id="video-fields-list" data-prototype="{{ form_widget(form.videos.vars.prototype)|e }}" data-widget-tags="{{ '<div class="mt-4"></div>'|e }}" data-widget-counter="{{ form.videos|length }}" class="p-0"></ul>
 									<button type="button" class="add-another-collection-widget btn btn-primary mt-2 mb-2" data-list-selector="#video-fields-list">Ajouter une autre vidéo</button>
 
 									<div class="container-fluid p-0 mt-5 mb-5">

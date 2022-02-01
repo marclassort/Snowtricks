@@ -6,91 +6,16 @@
 
 <h3 class="mt-5">Rajouter une ou plusieurs images</h3>
 
-<ul id="image-fields-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}" data-widget-tags="{{ '<div></div>'|e }}" data-widget-counter="{{ form.images|length }}" class="p-0">
-	<div>
-		{{ form_row(form.images, {'label': false}) }}
-	</div>
-</ul>
+<ul id="image-fields-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}" data-widget-tags="{{ '<div></div>'|e }}" data-widget-counter="{{ form.images|length }}" class="p-0"></ul>
 
 <button type="button" class="add-another-collection-widget btn btn-primary mt-2 mb-2" data-list-selector="#image-fields-list">Ajouter une autre image</button>
 
 <h3 class="mt-5">Rajouter une ou plusieurs vidéos</h3>
 
-<ul id="video-fields-list" data-prototype="{{ form_widget(form.videos.vars.prototype)|e }}" data-widget-tags="{{ '<div></div>'|e }}" data-widget-counter="{{ form.videos|length }}" class="p-0">
-	<div>
-		{{ form_row(form.videos, {'label': false}) }}
-	</div>
-</ul>
+<ul id="video-fields-list" data-prototype="{{ form_widget(form.videos.vars.prototype)|e }}" data-widget-tags="{{ '<div></div>'|e }}" data-widget-counter="{{ form.videos|length }}" class="p-0"></ul>
 
-<button type="button" class="add-another-collection-widget btn btn-primary mt-2 mb-2" data-list-selector="#video-fields-list">Ajouter une autre vidéo</button>
+<button type="button" class="add-another-collection-widget btn btn-primary mt-2 mb-5" data-list-selector="#video-fields-list">Ajouter une autre vidéo</button>
 
-<h2 class="mt-5">Image principale</h2>
-{% if trick.images|length == 0 %}
-	<p>Aucune image principale n'est enregistrée.</p>
-{% else %}
-	{% for image in trick.images %}
-		{% if loop.first %}
-			<div class="text-center">
-				<img src="{{ asset('/uploads/' ~ image.name) }}" alt="image" width="100%" class="mb-2">
-				<div class="d-block mb-5"></div>
-			</div>
-		{% endif %}
-	{% endfor %}
-{% endif %}
-
-<h2 class="mt-4">{{ form_label(form.images) }}</h2>
-{% if trick.images|length == 0 %}
-	<p>Aucune image n'est enregistrée.</p>
-{% endif %}
-{% for image in trick.images %}
-	<div class=" text-center">
-		<img src="{{ asset('/uploads/' ~ image.name) }}" alt="image" width="100%" class="mb-2">
-		<div>
-			<a id="js-image-delete-form" href="#" onclick="event.preventDefault(); confirm('Êtes-vous sûr de vouloir supprimer cette image ?') && document.getElementById('delete-form').submit();">
-				<span class="fas fa-trash-alt"></span>
-			</a>
-		</div>
-		<div class="d-block mb-5"></div>
-	</div>
-{% endfor %}
-
-<h2 class="mt-4">{{ form_label(form.videos) }}</h2>
-{% if trick.videos|length == 0 %}
-	<p class="mb-5">Aucune vidéo n'est enregistrée.</p>
-{% endif %}
-{% for video in trick.videos %}
-	<div class="text-center">
-		<video controls width="800" class="mt-5">
-			<source src="{{ asset('/uploads/' ~ video.name) }}" type="video/webm">
-
-			<source src="{{ asset('/uploads/' ~ video.name) }}" type="video/mp4">
-
-			<p>Désolé, votre navigateur ne supporte pas les vidéos. Voici
-				<a href="{{ asset('/uploads/' ~ video.name) }}">un lien pour télécharger la vidéo</a>.
-			</p>
-		</video>
-		<div>
-			<a id="js-video-delete-form" href="#" onclick="event.preventDefault(); confirm('Êtes-vous sûr de vouloir supprimer cette vidéo ?') && document.getElementById('delete-video-form').submit();">
-				<span class="fas fa-trash-alt"></span>
-			</a>
-		</div>
-	</div>
-{% endfor %}
-
-{{ form_end(form) }}
-
-{% for image in trick.images %}
-	<form id="delete-form" action="{{ path('image_delete', {id: image.id}) }}" method="post" class="d-none">
-		<input type="hidden" name="trick" value="{{ trick.slug }}">
-		<input type="hidden" name="token" value="{{ csrf_token('delete-item') }}">
-		<input type="hidden" name="_method" value="DELETE">
-	</form>
-{% endfor %}
-
-{% for video in trick.videos %}
-	<form id="delete-video-form" action="{{ path('video_delete', {id: video.id}) }}" method="post" class="d-none">
-		<input type="hidden" name="trick" value="{{ trick.slug }}">
-		<input type="hidden" name="token" value="{{ csrf_token('delete-item') }}">
-		<input type="hidden" name="_method" value="DELETE">
-	</form>
-{% endfor %}
+<div class="mb-5 text-center">
+	{{ form_end(form) }}
+</div>

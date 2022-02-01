@@ -61,15 +61,18 @@ class TrickController extends AbstractController
             $mediaHandler = new MediaHandler($slugger);
 
             $imagePath = $this->getParameter('images_directory');
-            $videoPath = $this->getParameter('videos_directory');
 
             $mediaHandler->manageImages($request, $trick, $form, $imagePath);
-            $mediaHandler->manageVideos($request, $trick, $form, $videoPath);
+            $videos = $mediaHandler->manageVideos($request, $trick);
 
             $slugger = new AsciiSlugger();
             $slug = $slugger->slug($trick->getName());
             $trick->setSlug($slug);
             $trick->setAuthor($this->getUser());
+
+            foreach ($videos as $video) {
+                $this->em->persist($video);
+            }
 
             $this->em->persist($trick);
             $this->em->flush();
@@ -98,10 +101,15 @@ class TrickController extends AbstractController
             $mediaHandler = new MediaHandler($slugger);
 
             $imagePath = $this->getParameter('images_directory');
-            $videoPath = $this->getParameter('videos_directory');
 
             $mediaHandler->manageImages($request, $trick, $form, $imagePath);
-            $mediaHandler->manageVideos($request, $trick, $form, $videoPath);
+            $videos = $mediaHandler->manageVideos($request, $trick);
+
+            if ($videos != []) {
+                foreach ($videos as $video) {
+                    $this->em->persist($video);
+                }
+            }
 
             $trick->setUpdatedAt(new \DateTime());
 
