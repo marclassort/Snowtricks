@@ -9,26 +9,28 @@
 		<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 	{% endif %}
 
-	<div class="row mt-5">
-		<div class="col-md-6 mx-auto">
-			<div class="container">
-				<h1>Se connecter</h1>
-				<div class="mt-5">
-					<form action="{{ path('app_login') }}" method="post">
-						<div class="mb-3">
-							<label for="username" class="form-label">Pseudo</label>
-							<input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control">
+	<div class="container">
+		<div class="row mt-5">
+			<div class="col-md-6 mx-auto">
+				<div class="container">
+					<h1>Se connecter</h1>
+					<div class="mt-5">
+						<form action="{{ path('app_login') }}" method="post">
+							<div class="mb-3">
+								<label for="username" class="form-label">Pseudo</label>
+								<input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control">
+							</div>
+							<div class="mb-3">
+								<label for="password" class="form-label">Mot de passe</label>
+								<input type="password" id="password" name="_password" class="form-control">
+							</div>
+							<div class="mb-3">
+								<a href="{{ path('forgotten_password') }}">Mot de passe oublié ?</a>
+							</div>
 						</div>
-						<div class="mb-3">
-							<label for="password" class="form-label">Mot de passe</label>
-							<input type="password" id="password" name="_password" class="form-control">
-						</div>
-						<div class="mb-3">
-							<a href="{{ path('forgotten_password') }}">Mot de passe oublié ?</a>
-						</div>
-					</div>
-					<button type="submit" class="btn btn-primary mb-5 col-12">Se connecter</button>
-				</form>
+						<button type="submit" class="btn btn-primary mb-5 col-12">Se connecter</button>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>

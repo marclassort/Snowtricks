@@ -17,7 +17,7 @@ It is a community website project about snowboard tricks which has been develope
 ## **Installation**
 
 1. Download or clone the GitHub repository.
-2. Run `composer install`.
+2. Run `composer install`. (It is possible that some bundles do not have the right version. In that case, run `composer update`.)
 3. Make the following configuration settings.
 
 ## **Database configuration**
@@ -47,6 +47,10 @@ To set up mailing, edit your `.env` as such:
 You can execute this command line to run a local web server: `symfony serve -d`
 
 **NOW you can run the site!**
+When the site is run, you can log using the following login and password:
+
+- Login: **fonctionnaire**
+- Password: **OpenClassrooms**
 
 ## **Code checking**
 

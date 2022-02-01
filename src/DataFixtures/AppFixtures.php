@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Entity\Video;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
@@ -56,11 +57,18 @@ class AppFixtures extends Fixture
         foreach ($users as $userArray) {
             $user = new User();
 
+            $passwordHasher = new UserPasswordHasherInterface();
+
             $user->setUsername($userArray['username'])
                 ->setFirstName($userArray['first_name'])
                 ->setLastName($userArray['last_name'])
                 ->setEmail($userArray['email'])
-                ->setPassword($userArray['password'])
+                ->setPassword(
+                    $passwordHasher->hashPassword(
+                        $user,
+                        $userArray['password']
+                    )
+                )
                 ->setRole($userArray['role'])
                 ->setIsVerified(1);
 
