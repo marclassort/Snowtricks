@@ -45,10 +45,15 @@
 								</a>
 								<div class="container-fluid">
 									<div class="row mt-2">
-										<div class="col-8">
-											<h6 class="p-2">{{ trick.name }}</h6>
-										</div>
+										{% if app.user is null %}
+											<div class="col-12">
+												<h6 class="p-2">{{ trick.name }}</h6>
+											</div>
+										{% endif %}
 										{% if app.user is not null %}
+											<div class="col-8">
+												<h6 class="p-2">{{ trick.name }}</h6>
+											</div>
 											<div class="col-2">
 												<a href="{{ path('figures_edit', {slug: trick.slug}) }}" class="text-white">
 													<span class="fas fa-edit m-2"></span>

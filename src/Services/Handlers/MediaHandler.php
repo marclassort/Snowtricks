@@ -69,7 +69,7 @@ class MediaHandler extends AbstractController
         $arrayOfImageNames = [];
 
         foreach ($images as $key => $image) {
-            if ($image['name'] != null) {
+            if ($image['name'] !== null) {
                 $newImage = $this->uploadImage($image['name'], $imagePath);
                 array_push($arrayOfImageNames, $newImage);
                 $img = $trick->getImages()->toArray()[$key]->setName($newImage);
